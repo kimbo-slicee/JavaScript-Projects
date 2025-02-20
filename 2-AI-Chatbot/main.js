@@ -6,6 +6,8 @@ const fileUpload = document.querySelector("#file-upload");
 const fileInput = document.querySelector("#file-input");
 const fileUploadWrapper=document.querySelector(".file-upload-wrapper")
 const fileCancel=document.querySelector("#file-cancel svg");
+const chatBootToggle=document.querySelector("#chatBoot-toggle");
+const closeChatbot=document.querySelector("#close-chat-bot")
 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`
 const userData = {
   message: null,
@@ -145,7 +147,14 @@ const piker= new EmojiMart.Picker({
 })
 // add emoji picker to the body
 document.querySelector(".chat-form").appendChild(piker);
+// add toggle functionality
+chatBootToggle.addEventListener("click",()=>{
+  document.body.classList.toggle("show-chatBoot");
+})
 
+closeChatbot.addEventListener("click",()=>{
+  document.body.classList.remove("show-chatBoot");
+})
 
 
 

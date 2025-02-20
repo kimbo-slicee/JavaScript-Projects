@@ -13,13 +13,24 @@ body{
     background:linear-gradient(#eeeeff,#c8c7ff);
 }
 .chatBot-popup{
-    width:420px;
+    width: 30vw;
     background-color: #fff;
     overflow: hidden;
     border-radius: 15px;
-    box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
-    0 32px 64px -48px rgba(0,0,0,0.5);
-    position: relative;
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 65%;
+    bottom: 15%;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(.2);
+    transform-origin:bottom right;
+    transition: all .5s ease-in-out;
+}
+body.show-chatBoot .chatBot-popup{
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
 }
 .chat-header{
     display: flex;
@@ -273,4 +284,41 @@ em-emoji-picker{
 }
 body.show-emoji-picker em-emoji-picker{
     visibility: visible;
+}
+/*ChatBot Toggle Button */
+#chatBoot-toggle{
+    position: fixed;
+    top: 90%;
+    left: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+    transition: all .2s ease-in-out;
+}
+#chatBoot-toggle button{
+    background-color: #5350c4;
+    outline: none;
+    border: none;
+    position: absolute;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .3s linear;
+}
+/*#chatBoot-toggle button:checked{*/
+/*    transform: scale3d(0,0,1.2);*/
+/*}*/
+#chatBoot-toggle button svg{
+    fill: white;
+}
+#chatBoot-toggle button:last-child{
+    opacity:1;
+}
+body.show-chatBoot #chatBoot-toggle{
+    transform: rotate(90deg);
+}
+body.show-chatBoot #chatBoot-toggle button:last-child{
+    opacity: 0;
 }
