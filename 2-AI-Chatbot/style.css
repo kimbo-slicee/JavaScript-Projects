@@ -261,4 +261,16 @@ body{
 .chat-form .file-upload-wrapper.file-uploaded:hover img{
     display: none;
 }
-
+em-emoji-picker{
+    position: absolute;
+    left: 50%;
+    top: -337px;
+    width: 100%;
+    max-width: 350px;
+    max-height: 330px;
+    visibility: hidden;
+    transform:translatex(-50%);
+}
+body.show-emoji-picker em-emoji-picker{
+    visibility: visible;
+}

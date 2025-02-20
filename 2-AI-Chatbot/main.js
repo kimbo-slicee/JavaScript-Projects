@@ -125,5 +125,27 @@ fileInput.addEventListener("change",(e)=>{
     fileUploadWrapper.classList.remove("file-uploaded");
     userData.file={};
   })
+// Bdd functionalities to Emoji btn
+const piker= new EmojiMart.Picker({
+  theme:"light",
+  skinTonePosition: "none",
+  previewPosition: "none",
+  onEmojiSelect: (emoji)=>{
+    const {selectionStart:start,selectionEnd:end}=messageInput;
+    messageInput.setRangeText(emoji.native,start,end,"end");
+    messageInput.focus()
+  },
+  onClickOutside: (e)=>{
+    if(e.target.id === "emoji-picker"){
+      document.body.classList.toggle("show-emoji-picker");
+    }else {
+      document.body.classList.remove("show-emoji-picker")
+    }
+  }
+})
+// add emoji picker to the body
+document.querySelector(".chat-form").appendChild(piker);
+
+
 
 
