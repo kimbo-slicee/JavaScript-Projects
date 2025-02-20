@@ -223,11 +223,42 @@ body{
 
 
 }
-.chat-form .message-input:valid~.chat-controls #send-message,
-.chat-form .chat-controls #send-message svg{
+.chat-form .message-input:valid~.chat-controls #send-message{
     display: block;
 }
 .chat-form .chat-controls #send-message svg:hover{
     box-shadow:  0 0 25px 1px #5350c4;
     transform: scale(1.1);
 }
+.chat-body .user-message .attachment{
+    width: 50%;
+    margin-top: -7px;
+    border-radius: 13px 3px 13px 13px;
+}
+.chat-form .file-upload-wrapper img{
+    position: absolute;
+    width: 50%;
+    height: 75%;
+    object-fit: cover;
+    border-radius: 50%;
+    top: 5px;
+    left: 40px;
+    cursor: pointer;
+    display: none;
+}
+#file-cancel{
+    display: none;
+}
+#file-cancel svg{
+    fill: #f14949;
+    background-color: white;
+}
+.chat-form .file-upload-wrapper.file-uploaded #file-cancel,
+.chat-form .file-upload-wrapper.file-uploaded img{
+    display: block;
+}
+.chat-form .file-upload-wrapper.file-uploaded :where(img,#file-upload),
+.chat-form .file-upload-wrapper.file-uploaded:hover img{
+    display: none;
+}
+

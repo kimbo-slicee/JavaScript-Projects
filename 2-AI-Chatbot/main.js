@@ -1,13 +1,21 @@
 const messageInput = document.querySelector(".message-input");
-const userMssageValue = document.querySelector(".user-message");
+const userMessageValue = document.querySelector(".user-message");
 const chatBot = document.querySelector(".chat-body");
 const btn = document.querySelector("#send-message");
+const fileUpload = document.querySelector("#file-upload");
+const fileInput = document.querySelector("#file-input");
+const fileUploadWrapper=document.querySelector(".file-upload-wrapper")
+const fileCancel=document.querySelector("#file-cancel svg");
 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`
 const userData = {
   message: null,
+  file:{
+    data:null,
+    mime_type:null
+    }
 };
 
-// create Message Elemet withe dynamic classes and return it
+// create Message Element withe dynamic classes and return it
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div");
   chatBot.scrollTo({top:chatBot.scrollHeight,behavior:"smooth"});
@@ -19,15 +27,15 @@ const createMessageElement = (content, ...classes) => {
 function handleMessageboxes(e) {
   e.preventDefault();
   userData.message = messageInput.value.trim();
-  const messageContent = `<div class="message-text"></div>`;
-  const outgoingMessagDiv = createMessageElement(
-    messageContent,
-    "user-message"
-  );
-  outgoingMessagDiv.querySelector(".message-text").textContent =
-    userData.message;
-  chatBot.appendChild(outgoingMessagDiv);
+  fileUploadWrapper.classList.remove("file-uploaded");
   userData.value = "";
+  const messageContent = `
+    <div class="message-text"></div>
+    ${userData.file.data?` <img src="data:${userData.file.mime_type};base64,${userData.file.data}" alt="user image" class="attachment"/>`:""}
+    `
+  const outgoingMessageDiv = createMessageElement(messageContent, "user-message");
+  outgoingMessageDiv.querySelector(".message-text").textContent = userData.message;
+  chatBot.appendChild(outgoingMessageDiv);
 }
 // Send Message by taping Enter
 messageInput.addEventListener("keydown", (e) => {
@@ -58,7 +66,7 @@ messageInput.addEventListener("keydown", (e) => {
 // Send message by clicking the Send  Icons
 btn.addEventListener("click", (e) => handleMessageboxes(e));
 
-// Generate Chat Boot response
+// Generate Gemini Chat Boot response
 const generateBotResponse =async (incomingMessageDiv) => {
   console.log(incomingMessageDiv)
   const messageElement=incomingMessageDiv.querySelector(".message-text");
@@ -67,23 +75,55 @@ const generateBotResponse =async (incomingMessageDiv) => {
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       contents:[{
-        parts:[{text:userData.message}]
+        parts:[{text:userData.message},...(userData.file.data?[{inline_data:userData.file}]:[])]
       }]
     })
   }
   try{
+    // Fetch Bot Response From Api
     const res=await fetch(url,reqOptions);
-    let data=await res.json();
-    messageElement.textContent=data.candidates[0].content.parts[0]["text"].trim()
     if(!res.ok) throw new Error(data.error.message);
+    let data=await res.json();
+    messageElement.innerText=data.candidates[0].content.parts[0]["text"].replace(/\*\*(.*?)\*\*/g, "$1").trim();
   }catch (error){
     messageElement.textContent=error.message;
     messageElement.style.color="#ee4f4f";
   }finally {
+    // rest the file object after Receiving the message
+    userData.file={};
     incomingMessageDiv.classList.remove("thinking");
     chatBot.scrollTo({top:chatBot.scrollHeight,behavior:"smooth"});
   }
 };
 
+// add File Upload to the chat Boot
+fileUpload.addEventListener("click",(e)=>{
+  fileInput.click();
+})
+
+// let's receive the file
+fileInput.addEventListener("change",(e)=>{
+  let file=fileInput.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    fileUploadWrapper.querySelector("img").src=e.target.result;
+    fileUploadWrapper.classList.add("file-uploaded");
+    const based64String=e.target.result.split(",")[1];
+     userData.file={
+       data:based64String,
+       mime_type:file.type
+    }
+    // console.log("file"+userData.file)
+    fileInput.value="";
+  }
+  reader.readAsDataURL(file);
+})
+// file cancel function
+  fileCancel.addEventListener("click",()=>{
+    fileUploadWrapper.querySelector("img").src="#";
+    fileUploadWrapper.classList.remove("file-uploaded");
+    userData.file={};
+  })
 
 
