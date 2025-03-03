@@ -8,6 +8,7 @@ const fileUploadWrapper=document.querySelector(".file-upload-wrapper")
 const fileCancel=document.querySelector("#file-cancel svg");
 const chatBootToggle=document.querySelector("#chatBoot-toggle");
 const closeChatbot=document.querySelector("#close-chat-bot")
+const API_KEY="AIzaSyBSzilSlNiaUYqoAI16c5rPxKFUM0kCpx0"
 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`
 const userData = {
   message: null,
@@ -16,6 +17,7 @@ const userData = {
     mime_type:null
     }
 };
+const initialInputScrollHeit=messageInput.scrollHeight;
 
 // create Message Element withe dynamic classes and return it
 const createMessageElement = (content, ...classes) => {
@@ -64,6 +66,12 @@ messageInput.addEventListener("keydown", (e) => {
     },600)
   }
 });
+//
+messageInput.addEventListener("input",()=>{
+  messageInput.style.height=`${initialInputScrollHeit}px`;
+  messageInput.style.height=`${messageInput.scrollHeight}px`;
+  document.querySelector(".chat-form").style.borderRadius=messageInput.scrollHeight>initialInputScrollHeit?"15px":"30px"
+})
 
 // Send message by clicking the Send  Icons
 btn.addEventListener("click", (e) => handleMessageboxes(e));

@@ -180,7 +180,7 @@ body.show-chatBoot .chatBot-popup{
 .chat-footer .chat-form{
     display: flex;
     align-items: center;
-    background: #f2f2ff;
+    background: white;
     border-radius: 32px;
     outline: 1px solid #cccce5;
     width: 100%;
@@ -190,11 +190,14 @@ body.show-chatBoot .chatBot-popup{
     border: none;
     outline: none;
     height: 47px;
-    width: 100%;
+    width: 70%;
     font-size: 0.95rem;
     padding: 14px 0 13px 18px;
-    border-radius: inherit;
     resize: none;
+    background: transparent;
+    white-space: pre-line;
+
+
 }
 .chat-controls{
     display: flex;
@@ -217,10 +220,6 @@ body.show-chatBoot .chatBot-popup{
 .chat-controls button >svg{
     fill: #afaaaa;
     font-size: 1.15rem;
-}
-.chat-form input[type="text"]:focus{
-    border: 2px solid #5350c4;
-    caret-color: #5350c4;
 }
 .chat-form .chat-controls #send-message{
     display: none;
