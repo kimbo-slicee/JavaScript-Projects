@@ -193,7 +193,6 @@ body{
     padding:9px 17px;
 }
 .result-container{
-    /*display: ;*/
     align-items: center;
     flex-direction:column;
     padding: 40px;
