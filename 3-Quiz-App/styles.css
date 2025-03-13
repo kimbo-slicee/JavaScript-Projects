@@ -102,6 +102,7 @@ body{
 }
 .quiz-container{
     width: 500px;
+    display: block;
 }
 .quiz-container .quiz-header{
     display: flex;
@@ -147,7 +148,7 @@ body{
     margin: -4px -3px -4px 12px;
 }
 .quiz-content .answer-option{
-    padding: 5px 16px;
+    padding: 15px 16px;
     background-color:#f3f1ff;
     border-radius: 6px;
     font-weight: 500;

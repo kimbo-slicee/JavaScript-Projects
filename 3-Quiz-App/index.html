@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="js/questions.js" defer></script> <!--Make usr this Js fail it's imported before the main.js-->
     <script src="js/main.js" defer></script>
-
 </head>
 <body>
     <!--quiz Config Container-->
@@ -43,23 +43,8 @@
             </div>
         </header>
         <div class="quiz-content">
-            <h1 class="question-text">In javaScript ,how do you create a function</h1>
-            <ul class="answer-options">
-                <li class="answer-option">
-                    <p>create function myFunction()</p>
-                </li>
-                <li class="answer-option correct">
-                    <p>function myFunction()</p>
-                    <span class="material-symbols-outlined">check_circle</span>
-                </li>
-                <li class="answer-option incorrect">
-                    <p>def function myFunction()</p>
-                    <span class="material-symbols-outlined">cancel</span>
-                </li>
-                <li class="answer-option">
-                    <p>func function myFunction()</p>
-                </li>
-            </ul>
+            <h1 class="question-text"></h1>
+            <ul class="answer-options"></ul>
         </div>
         <div class="quiz-footer">
             <p class="question-status"><b>2</b> of<b>10</b> Questions</p>
