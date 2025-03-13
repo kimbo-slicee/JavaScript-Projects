@@ -5,6 +5,9 @@
     <title>Title</title>
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="js/main.js" defer></script>
+
 </head>
 <body>
     <!--quiz Config Container-->
@@ -29,6 +32,55 @@
             </div>
         </div>
         <button class="start-quiz-btn">Start Quiz</button>
+    </div>
+    <!--Quiz Container-->
+    <div class="quiz-container">
+        <header class="quiz-header">
+            <h2 class="quiz-title">Quiz Application</h2>
+            <div class="quiz-timer">
+                <span class="material-symbols-outlined">timer</span>
+                <p class="time-duration">15s</p>
+            </div>
+        </header>
+        <div class="quiz-content">
+            <h1 class="question-text">In javaScript ,how do you create a function</h1>
+            <ul class="answer-options">
+                <li class="answer-option">
+                    <p>create function myFunction()</p>
+                </li>
+                <li class="answer-option correct">
+                    <p>function myFunction()</p>
+                    <span class="material-symbols-outlined">check_circle</span>
+                </li>
+                <li class="answer-option incorrect">
+                    <p>def function myFunction()</p>
+                    <span class="material-symbols-outlined">cancel</span>
+                </li>
+                <li class="answer-option">
+                    <p>func function myFunction()</p>
+                </li>
+            </ul>
+        </div>
+        <div class="quiz-footer">
+            <p class="question-status"><b>2</b> of<b>10</b> Questions</p>
+            <button class="next-question-btn">
+                Next
+                <span class="material-symbols-outlined">
+                arrow_right_alt
+                </span>
+            </button>
+        </div>
+    </div>
+    <!-- Result Container-->
+    <div class="result-container">
+        <img src="assets/images/quiz-over.png" alt="result-image" class="result-img">
+        <h2 class="result-title">Quiz Completed!</h2>
+        <p class="result-message">
+            You Answered <b>3</b> out of <b>%</b>
+            questions correctly.
+            great effort
+        </p>
+        <button class="try-again-btn">Try Again</button>
     </div>
 </body>
 </html>
