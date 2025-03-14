@@ -18,7 +18,9 @@ body{
     background: #5145Ba;
     overflow: hidden;
 }
-:where(.config-container,.quiz-container,.result-container){
+:where(.config-container,
+.quiz-container,
+.result-container){
     text-align: center;
     background: #fff;
     border-radius: 8px;
@@ -32,6 +34,7 @@ body{
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.13);
+    display: block;
 }
 .config-container .config-title{
     font-size: 1.31rem;
@@ -102,7 +105,6 @@ body{
 }
 .quiz-container{
     width: 500px;
-    display: block;
 }
 .quiz-container .quiz-header{
     display: flex;
