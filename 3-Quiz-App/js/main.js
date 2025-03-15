@@ -11,12 +11,31 @@ const startQuizBtn=document.querySelector(".start-quiz-btn");
 let currentTime=QUIZ_TIME_LIMIT;
 let timer=null;
 // get random Question
-let quizCategory="programming";
+let quizCategory="";
 // current question
 let currentQuestion=null;
 let questionIndexesHistory=[];
 let numberOfQuestion=5;
 let correctAnswerCounter=0;
+// Update config Container
+document.querySelectorAll(".category-option,.question-option").forEach(option=>{
+    option.addEventListener("click",()=>{
+        option.parentNode.querySelector(".active").classList.remove("active");
+        option.classList.add("active")
+    })
+})
+// start Quiz App
+const startQuiz=()=>{
+    configContainer.style.display="none"
+    quizContainer.style.display="block";
+    // update The Quiz Category and quizNumbers
+    quizCategory=document.querySelector(".category-option.active").textContent.toLowerCase();
+    numberOfQuestion=Number(document.querySelector(".question-option.active").textContent);
+    console.log(quizCategory,numberOfQuestion);
+    renderQuestion();
+}
+
+
 //Clear And rest The Timer
 const restTimer=()=>{
     clearInterval(timer);
@@ -37,8 +56,7 @@ const startTime=()=>{
         }
     },1500)
 }
-
-
+//
 const showQuizResult=()=>{
     quizContainer.style.display="none";
     resultContainer.style.display="block";
@@ -65,8 +83,6 @@ const highLitCorrectAnswer=()=> {
     const iconsHtml="<span class='material-symbols-outlined'>check_circle</span>"
     correctAnswer.insertAdjacentHTML("beforeend",iconsHtml);
 }
-
-
 // handel answer if it's correct or not
 const handelAnswer=(option,index)=>{
     let isCorrectQuestion=currentQuestion.correctAnswer===index;
@@ -82,7 +98,6 @@ const handelAnswer=(option,index)=>{
     clearInterval(timer);
 
 }
-
 const renderQuestion=()=>{
     currentQuestion=getRandomQuestions();
     if(!currentQuestion) return;
@@ -103,19 +118,15 @@ const renderQuestion=()=>{
 
 
 }
-// start Quiz App
-const startQuiz=()=>{
-    configContainer.style.display="none"
-    quizContainer.style.display="block";
-    renderQuestion();
-}
 // RestQuiz
 const resetQuiz=()=>{
  questionIndexesHistory=[];
  correctAnswerCounter=0;
  restTimer();
  resultContainer.style.display="none"
- configContainer.style.display="block"
+ configContainer.style.display="block";
+ quizCategory="";
+ numberOfQuestion=5
 }
 // renderQuestion();
 // Next Question Functionality
