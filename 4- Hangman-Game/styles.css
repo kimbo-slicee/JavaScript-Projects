@@ -49,6 +49,7 @@ body{
 .word-display .letter.guessed{
     border-color: transparent;
     margin: -40px 0 35px;
+    transition: .5s ease;
 }
 .game-box h4{
     text-align: center;
@@ -137,6 +138,11 @@ body{
 }
 .game-model button{
     padding: 12px 23px;
+}
+button[disabled]{
+    background: #8286c9;
+    opacity: 0.5;
+    pointer-events: none;
 }
 @media (max-width: 782px) {
     .container{
