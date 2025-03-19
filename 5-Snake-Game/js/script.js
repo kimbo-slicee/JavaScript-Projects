@@ -26,7 +26,7 @@ const chaneFoodPosition=()=> {
     foodX = Math.floor(Math.random() * 30) + 1;
     foodY = Math.floor(Math.random() * 30) + 1;
 }
-//
+// Running the game
 const initGame=()=>{
     playBoard.innerHTML=`<div class="food" style="grid-area:${foodY}/${foodX}"></div>`;
     // update the Snake Position
@@ -36,10 +36,11 @@ const initGame=()=>{
     // checking if the snake eat the food
     if(snakeX===foodX && snakeY===foodY) {
         chaneFoodPosition();
-        snakeBody.push([foodX,foodY]);// push food position ti the snake body Array
-        console.log(snakeBody);
+        snakeBody.push([foodX,foodY]);// push food position ti the snake body Array;
     }
-    //
+    for(let i=snakeBody.length-1;i>0 ; i--)snakeBody[i]=snakeBody[i-1];// shifting forward the value of the elements
+    // in the snake body by one
+    //change the length of the Snake after Eating food
     for (let i=0;i<snakeBody.length ; i++){
     playBoard.innerHTML+=`<div class="head" style="grid-area:${snakeBody[i][1]}/${snakeBody[i][0]}"></div>`;
     }
