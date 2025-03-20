@@ -45,3 +45,42 @@ body{
     background: deepskyblue;
     box-shadow:0 0 5px 1px deepskyblue;
 }
+.controls{
+    width: 100%;
+    background: #212837;
+    display: none;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-top: 3px solid #293447;
+}
+.controls button{
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+.controls button svg{
+    fill: #b8c6dc;
+    font-size: 20px;
+    width: 50px;
+    height:30px;
+}
+@media screen and (max-width: 800px) {
+    .wrapper{
+        width: 90vmin;
+        height: 115vmin;
+
+    }
+    .game-details{
+        font-size: 1rem;
+        padding: 15px 27px;
+    }
+    .controls{
+        display: flex;
+    }
+    .controls i{
+        padding: 15px 0;
+        font-size: 1rem;
+    }
+
+}

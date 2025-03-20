@@ -1,4 +1,6 @@
 const scoreText=document.querySelector(".score");
+const highScoreText=document.querySelector(".high-score");
+const buttons=document.querySelectorAll(".controls button");
 let playBoard=document.querySelector(".play-board");
 let foodX=10, foodY=10,snakeY=5,snakeX=2;
 let velocityX=0,velocityY=0;
@@ -6,6 +8,8 @@ let snakeBody=[];
 let gameOver=false;
 let setIntervalId;
 let score=0;
+let highScore=localStorage.getItem("high-score")||0;
+highScoreText.innerText=`Height Score:${highScore}`;
 // change Snake when press on keyBoard
 const changeSnakePosition=(event)=>{
     // ArrowDown,ArrowUp ArrowRight ArrowLeft
@@ -48,11 +52,16 @@ const initGame=()=>{
     snakeX+=velocityX;
     snakeY+=velocityY;
     // checking if the snake eat the food
-    if(snakeX===foodX && snakeY===foodY ) {
-        snakeBody.push([foodX,foodY]);// push food position to the snake body Array;
+    if (snakeX === foodX && snakeY === foodY) {
+        snakeBody.push([foodX, foodY]);// push food position to the snake body Array;
         changeFoodPosition();
+        //incrementing score
         score++;
-        scoreText.innerText=`Score:${score}`
+        // set Height score in localStorage
+        highScore = score >= highScore ? score :highScore;
+        localStorage.setItem("high-score",highScore)
+        scoreText.innerText = `Score:${score}`
+        highScoreText.textContent=`Height Score:${highScore}`;
     }
     //change the length of the Snake after Eating food
     for (let i=0;i<snakeBody.length ; i++) {
@@ -65,8 +74,14 @@ const initGame=()=>{
     if(snakeX<=0 || snakeX>30 || snakeY<=0 || snakeY>30) gameOver=true
 
 }
-setIntervalId=setInterval(initGame,200+score);
+setIntervalId=setInterval(initGame,200-score);
 changeFoodPosition();
 // Move Snake
-document.addEventListener("keydown",changeSnakePosition)
-
+//
+buttons.forEach((btn)=>{
+    btn.addEventListener("click",(e)=>{
+        // Calling Change Direction on Each Key and Passing dataset Value
+        changeSnakePosition(e.currentTarget.dataset);
+    })
+})
+document.addEventListener("keydown",changeSnakePosition);
