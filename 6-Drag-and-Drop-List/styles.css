@@ -5,3 +5,58 @@
     box-sizing: border-box;
     font-family: "Open Sans", sans-serif;
 }
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background:#595dbb;
+}
+ul{
+    background: white;
+    list-style: none;
+    max-height: 100vh;
+    padding: 20px 30px;
+    min-width:400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+ul li{
+    width: 100%;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border:1px solid lightgray;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.item span.material-symbols-outlined{
+    color: #474747;
+}
+.details{
+    display: flex;
+    align-items: center;
+}
+.details img{
+    border-radius: 50%;
+    object-fit: cover;
+    height: 45px;
+    width: 45px;
+}
+.item .details span{
+    font-size: 1.1rem;
+    font-family: "Segoe Print",sans-serif;
+}
+
+.details span{
+    margin-left: 10px;
+}
+.item.dragging :where(.details,span.material-symbols-outlined){
+    opacity: 0;
+}
