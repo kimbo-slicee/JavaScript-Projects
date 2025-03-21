@@ -15,7 +15,7 @@ body{
 ul{
     background: white;
     list-style: none;
-    max-height: 100vh;
+    max-height: 500px;
     padding: 20px 30px;
     min-width:400px;
     display: flex;
@@ -35,6 +35,7 @@ ul li{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: all .5s linear;
 }
 .item span.material-symbols-outlined{
     color: #474747;
@@ -59,4 +60,5 @@ ul li{
 }
 .item.dragging :where(.details,span.material-symbols-outlined){
     opacity: 0;
+
 }
