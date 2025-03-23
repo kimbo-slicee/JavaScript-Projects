@@ -18,8 +18,7 @@ const initSortableList=(e)=>{
         * sibling.offsetHeight / 2 → Half of the sibling’s height.
         * e.clientY → Current Y position of the mouse.
         */
-        console.log(e.clientY)
-        return e.clientY <= sibling.offsetTop + (sibling.offsetHeight / 2) ;
+            return e.clientY <= sibling.offsetTop + (sibling.offsetHeight / 2);
         //If the mouse is above the middle of sibling, that sibling is chosen as nextSibling
     })
     sortableList.insertBefore(draggedItem,nextSibling);
