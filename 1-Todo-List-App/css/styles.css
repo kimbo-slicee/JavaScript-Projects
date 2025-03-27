@@ -62,20 +62,20 @@ form{
     position: relative;
 
 }
-ul{
-    overflow-y: scroll;
-    max-height: 50%;
-}
-ul::-webkit-scrollbar{
-    background-color: transparent;
-    width: 10px;
+/*ul{*/
+/*    overflow-y: scroll;*/
+/*    max-height: 50%;*/
+/*}*/
+/*ul::-webkit-scrollbar{*/
+/*    background-color: transparent;*/
+/*    width: 10px;*/
 
-}
-ul::-webkit-scrollbar-thumb{
-    background-color: var(--primary-color);
-    width: 5px;
-    border-radius: 10px;
-}
+/*}*/
+/*ul::-webkit-scrollbar-thumb{*/
+/*    background-color: var(--primary-color);*/
+/*    width: 5px;*/
+/*    border-radius: 10px;*/
+/*}*/
 li{
      border: 2px solid var(--accent-color);
      margin: 10px;
