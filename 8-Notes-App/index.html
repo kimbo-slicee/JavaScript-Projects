@@ -10,8 +10,28 @@
     <title>Notes App | JavaScript</title>
 </head>
 <body>
+    <div class="popup-box">
+        <div class="popup">
+            <div class="content">
+                <header>
+                    <p>Add a new Note</p>
+                    <span class="material-symbols-outlined">close</span>
+                </header>
+                <form class="">
+                    <div class="row title">
+                        <label>Title</label>
+                        <input type="text">
+                    </div>
+                    <div class="row description" >
+                        <label for="description">transform</label>
+                        <textarea name="description" id="description"></textarea>
+                    </div>
+                    <button type="button">Add Note</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="wrapper">
-        <ul>
             <li class="add-box">
                <span class="material-symbols-outlined">add</span>
                 <p>Add New Note</p>
@@ -19,17 +39,26 @@
             <li class="note">
                 <div class="details">
                     <p>This is a Title</p>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cum sociis natoque penatibus et magnis dis. Aenean pharetra magna ac placerat. Tellus in metus vulputate eu scelerisque felis. Pellentesque massa placerat duis ultricies lacus sed.   </span>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
                 </div>
                 <div class="bottom-content">
                     <span>April 3 ,2022</span>
                     <div class="settings">
-                       <span class="material-symbols-outlined">more_horiz</span>
+                        <span class="material-symbols-outlined">more_horiz</span>
+                        <ul class="menu">
+                        <li>
+                            <span>Edite</span>
+                            <span class="material-symbols-outlined">edit</span>
+                        </li>
+                        <li>
+                            <span>Delete</span>
+                            <span class="material-symbols-outlined">delete</span>
+                        </li>
+                        </ul>
                     </div>
                 </div>
             </li>
 
-        </ul>
     </div>
 </body>
 </html>
