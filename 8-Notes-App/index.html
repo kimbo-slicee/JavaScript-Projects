@@ -17,16 +17,18 @@
                     <p>Add a new Note</p>
                     <span class="material-symbols-outlined">close</span>
                 </header>
-                <form class="">
+                <form id="myForm">
                     <div class="row title">
-                        <label>Title</label>
-                        <input type="text">
+                        <label for="note">Note:</label>
+                        <input type="text" id="note" name="note">
+                        <span class="error-message" id="note-error"></span>
                     </div>
-                    <div class="row description" >
-                        <label for="description">transform</label>
-                        <textarea name="description" id="description"></textarea>
+                    <div class="row description">
+                        <label for="description" >Description:</label>
+                        <textarea id="description" name="description" ></textarea>
+                        <span class="error-message" id="description-error"></span>
                     </div>
-                    <button type="button">Add Note</button>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         </div>
