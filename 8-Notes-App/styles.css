@@ -12,27 +12,25 @@ body{
 .wrapper{
     margin: 50px;
     display: grid;
-    grid-template-columns:repeat(auto-fill,265px);
+    grid-template-columns:repeat(auto-fill,200px);
     gap: 10px;
 }
-.wrapper li,.add-box{
+.wrapper li,
+.add-box{
     background: white;
     padding: 15px 20px 20px;
     border-radius: 10px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
 }
 .add-box{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    max-width: 20%;
+    margin: auto;
     color:#88Abff;
-    cursor: pointer;
-    width: 20%;
-    position: absolute;
-    top:50%;
-    left: 50%;
-    transform:translate(-50%,-50%);
 }
 .add-box svg{
     fill:#88Abff;
@@ -41,6 +39,8 @@ body{
     width: 130px;
     height: 130px;
     padding: 2rem;
+    margin-top: 15px;
+    cursor: pointer;
 }
 .add-box p{
     font-size: 20px;
@@ -68,9 +68,6 @@ body{
 .note .bottom-content .settings{
     position: relative;
 }
-.note .bottom-content .settings span{
-    cursor: pointer;
-}
 .menu{
     box-shadow: 0 0 6px rgba(0,0,0,0.15);
     position: absolute;
@@ -84,6 +81,7 @@ body{
 .settings:hover .menu{
     transform:scale(1);
 }
+
 .menu li{
     cursor: pointer;
     height: 25px;
@@ -92,17 +90,15 @@ body{
     justify-content: space-between;
     padding: 17px 15px;
 }
-.menu li:first-child {
-    color: limegreen;
+.menu li:first-child{
+    color: #00FD17FF;
 }
 .menu li:last-child{
-    color: palevioletred;
+    color: #D93838FF;
+
 }
 .menu li:hover{
     background: #f5f5f5;
-}
-.menu span{
-    margin-left: 5px;
 }
 /*popup menu style*/
 .popup-box{
@@ -146,18 +142,18 @@ body{
     padding: 0 25px;
     border-bottom:1px solid #ccc;
 }
-/**/
+/* popup header */
 .content header p{
     font-size: 20px;
     font-weight: 500;
 }
-.content header span{
-    color: #8b8989;
+.content header svg{
+    fill: #8b8989;
     cursor: pointer;
-    font-size: 23px;
+    /*font-size: 23px;*/
     transition: transform .4s ease;
 }
-.content header span:hover{
+.content header svg:hover{
     transform: rotate(90deg);
 }
 .content form{
@@ -178,7 +174,7 @@ body{
     border-radius: 5px;
     border:1px solid #999;
     font-size: 17px;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 .content form textarea{
     height: 150px;
