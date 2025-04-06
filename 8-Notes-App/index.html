@@ -5,37 +5,45 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css"/>
-    <script src="script.js" defer></script>
-    <title>Notes App | JavaScript</title>
+    <title>Notes App in HTML CSS & JavaScript </title>
 </head>
 <body>
-    <div class="popup-box">
-        <div class="popup">
-            <div class="content">
-                <header>
-                    <p>Add a new Note</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
-                </header>
-                <form id="myForm">
-                    <div class="row title">
-                        <label for="note">Note:</label>
-                        <input type="text" id="note" name="note">
-                        <span class="error-message" id="note-error"></span>
-                    </div>
-                    <div class="row description">
-                        <label for="description" >Description:</label>
-                        <textarea id="description" name="description" ></textarea>
-                        <span class="error-message" id="description-error"></span>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
+<div class="popup-box"
+>
+    <div class="popup">
+        <div class="content">
+            <header>
+                <p>Add a new Note</p>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+            </header>
+            <form id="myForm">
+                <div class="row title">
+                    <label for="note">Note</label>
+                    <input type="text" id="note" name="note">
+                    <span class="error-message" id="note-error"></span>
+                </div>
+                <div class="row description">
+                    <label for="description" >Description</label>
+                    <textarea id="description" name="description" ></textarea>
+                    <span class="error-message" id="description-error"></span>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </div>
-     <div class="add-box">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-            <p>Add New Note</p>
-        </div>
-    <div class="wrapper"></div>
+</div>
+<div class="delete-popup">
+<div class="confirm-delete">
+    <p>this Note will be Deleted </p>
+    <div>
+    <button class="delete">Delete</button>
+    <button class="cancel">Cancel</button>
+    </div>
+</div>
+</div>
+
+<ul class="wrapper"></ul>
+<canvas id="balloonCanvas"></canvas>
 </body>
+<script src="script.js"></script>
 </html>
