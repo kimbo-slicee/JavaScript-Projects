@@ -1,0 +1,101 @@
+*,::before,::after{
+    margin: 0;
+    padding: 0;
+    outline: none ;
+    box-sizing: border-box;
+}
+:root{
+    --main-color:#fff;
+    --secondry-color: rgba(96, 179, 245, 0.99)
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--secondry-color);
+}
+.wrapper{
+    background-color: var(--main-color);
+    width: 400px;
+    border-radius: 7px;
+}
+.wrapper header{
+    color: var(--secondry-color);
+    font-size:21px;
+    font-weight: 500;
+    padding: 16px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #bfbbfb;
+}
+header i{
+    cursor: pointer;
+    font-size: 30px;
+    margin-right: 8px;
+}
+.wrapper .input-part{
+    margin: 20px 25px 30px;
+}
+.input-part .info-text{
+    display: none;
+    font-size: 17px;
+    text-align: center;
+    padding: 12px 10px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+.input-part input:is(:focus,:valid){
+    border: 1px solid var(--secondry-color);
+}
+.input-part .info-text.error{
+    display: block;
+    color: #721c24;
+    background:#f8d7da;
+    border: 1px solid #f5c6cb;
+}
+.input-part .info-text.pending{
+    display: block;
+    color: #0c5460;
+    background:#d1ecf1;
+    border: 1px solid #bee5eb;
+}
+.input-part :where(input,button){
+    width: 100%;
+    height: 55px;
+    border: none;
+    font-size: 18px;
+    border-radius: 7px;
+}
+.input-part input{
+    text-align: center;
+    border: 1px solid #bfbfbf;
+}
+.input-part input::placeholder{
+    color: #ccc;
+    text-transform: uppercase;
+}
+.input-part button{
+    background-color: var(--secondry-color);
+    color: var(--main-color);
+    cursor: pointer;
+}
+.input-part .separator{
+    height: 1px;
+    width: 100%;
+    margin: 25px 0;
+    background-color: #ccc;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.input-part .separator:before{
+    content: "or";
+    background-color: var(--main-color);
+    font-size: 19px;
+    padding: 0 15px;
+    color: #ccc;
+}
+
+
