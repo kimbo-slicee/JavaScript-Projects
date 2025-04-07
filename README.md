@@ -1,7 +1,7 @@
 # 🚀 My JavaScript Playground! 🎨💡
 
 <div align="center">
-<img src="" alt="hello world"/>
+<img src="Happy-Lets-Go-GIF.gif" alt="hello world" width="80%"/>
 </div>
 
 Welcome to my JavaScript Playground! This repository is a collection of my front-end projects, ranging from beginner-friendly ones to advanced creations. Each project is built with HTML, CSS, and JavaScript where I put my knowledge to the test, experiment with cool features, and bring ideas to life.
