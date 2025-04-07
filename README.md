@@ -1,9 +1,7 @@
 # 🚀 My JavaScript Playground! 🎨💡
 
 <div align="center">
-<img src="https://media0.giphy.com/media/v1.
-Y2lkPTc5MGI3NjExNTZlbnd4azQ0cW4wd2V2MW82M3l1NnR1MHc2bGpzMWgzcDFsbXhzbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw
-/t3sZxY5zS5B0z5zMIz/giphy.gif" alt="hello world"/>
+<img src="" alt="hello world"/>
 </div>
 
 Welcome to my JavaScript Playground! This repository is a collection of my front-end projects, ranging from beginner-friendly ones to advanced creations. Each project is built with HTML, CSS, and JavaScript where I put my knowledge to the test, experiment with cool features, and bring ideas to life.
