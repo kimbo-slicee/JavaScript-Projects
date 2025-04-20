@@ -46,11 +46,8 @@ const requestAPI=(city)=>{
 
 }
 inputField.addEventListener("keyup",function (e){
-    if(e.key==="Enter" && this.value!==""){
-        requestAPI(this.value);
-   }else {
+    if(e.key==="Enter" && this.value!=="")requestAPI(this.value);
 
-    }
 })
 
 // Hande Get Device Btn
