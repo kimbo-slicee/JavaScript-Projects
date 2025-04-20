@@ -73,6 +73,11 @@ body{
 .wrapper .pass-length{
     margin:1.56rem 0 1.25rem;
 }
+.wrapper .pass-length .details{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .pass-length input{
     width: 100%;
     height: 5px;
@@ -85,7 +90,13 @@ body{
 .pass-settings .options .option{
     display: flex;
     margin-bottom: 1rem;
-    width: calc(100%/ 2);
+    width: calc(100%/2);
+}
+.pass-settings .options .option:first-child input{
+    opacity: 0.5;
+}
+.pass-settings .options .option:first-child{
+    pointer-events: none;
 }
 .pass-settings .options .option label{
     cursor: pointer;
