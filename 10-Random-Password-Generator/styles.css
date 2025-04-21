@@ -46,6 +46,7 @@ body{
     border: 1px solid #aaa;
     border-radius: 5px;
     padding: 0 2.85rem 0 1rem;
+    letter-spacing: 2px;
 }
 .input-box span{
     position: absolute;
