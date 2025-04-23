@@ -48,13 +48,35 @@ body{
     padding: 0 2.85rem 0 1rem;
     letter-spacing: 2px;
 }
-.input-box span{
+.input-box span,.copy-popup{
     position: absolute;
     right: 13px;
     top: 25%;
     cursor: pointer;
     color: #707070;
 }
+.copy-popup{
+    width: 100px;
+    height: 30px;
+    right: 0;
+    top: 10px;
+    background-color:#707070;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 50px 50px 50px 0px;
+    font-size: 12px;
+    opacity: 1;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.copy-popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
 .wrapper .pass-indicator{
     width: 100%;
     height: 5px;
@@ -67,13 +89,32 @@ body{
     position: absolute;
     content: "";
     height: 100%;
-    width: 50%;
-    background: #f1c80b;
     border-radius: inherit;
+
+}
+.pass-indicator.strength-1::before {
+    width: 25%;
+    background-color: #FF4C4C; /* Weak */
+}
+
+.pass-indicator.strength-2::before {
+    width: 50%;
+    background-color: #FFA500; /* Fair */
+}
+
+.pass-indicator.strength-3::before {
+    width: 75%;
+    background-color: #2e94fa; /* Good */
+}
+
+.pass-indicator.strength-4::before {
+    width: 100%;
+    background-color: #4CAF50; /* Strong */
 }
 .wrapper .pass-length{
     margin:1.56rem 0 1.25rem;
 }
+
 .wrapper .pass-length .details{
     display:flex;
     align-items: center;
@@ -82,6 +123,7 @@ body{
 .pass-length input{
     width: 100%;
     height: 5px;
+    cursor: pointer;
 }
 .pass-settings .options{
     display: flex;
@@ -119,5 +161,8 @@ body{
 .wrapper .generate-btn:hover{
     background: #2b71f1;
 }
-
+.copy-wrapper {
+    position: relative;
+    display: inline-block;
+}
 
