@@ -6,7 +6,7 @@ const options = document.querySelectorAll(".options .option input");
 const input = document.querySelector("input[type='text']");
 const passIndicator = document.querySelector(".pass-indicator");
 const copyIcon=document.querySelector(".input-box span");
-const copyPopup = document.querySelector(".copy-popup");
+const copyPopup = document.querySelector(".copy-wrapper");
 // ======== GLOBAL VARIABLES ========
 let excludeDuplicate = false;
 let checkedBoxes = 0;

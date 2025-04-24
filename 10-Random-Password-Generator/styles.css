@@ -48,31 +48,61 @@ body{
     padding: 0 2.85rem 0 1rem;
     letter-spacing: 2px;
 }
-.input-box span,.copy-popup{
+.input-box span{
     position: absolute;
     right: 13px;
     top: 25%;
     cursor: pointer;
+    transition: transform 0.3s ease;
     color: #707070;
 }
-.copy-popup{
+.input-box span:active{
+    transform: scale(.8);
+}
+.copy-wrapper {
+    position: absolute;
     width: 100px;
-    height: 30px;
+    height: 50px;
+    bottom: 50px;
     right: 0;
-    top: 10px;
-    background-color:#707070;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 50px 50px 50px 0px;
-    font-size: 12px;
-    opacity: 1;
+    background: rgb(239, 239, 239);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 0;
+    padding: 15px;
+    /*transform-origin: center center;*/
+    opacity: 0;
     pointer-events: none;
     transform: translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
+
 }
-.copy-popup.show {
+.copy-wrapper.show {
     opacity: 1;
     transform: translateY(0);
+}
+.copy-popup {
+    padding:0 10px;
+    position: absolute;
+    right: 15px;
+    bottom: -25px;
+    border-left: 21px solid transparent;
+    &::before {
+        content: '';
+        position: absolute;
+        right: 5px;
+        bottom: 2px;
+        border-left: 23px solid transparent;
+        border-top: 23px solid #a7a7a7;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        right: 6px;
+        bottom: 4px;
+        border-left: 21px solid transparent;
+        border-top: 21px solid #efefef;
+    }
 }
 
 
@@ -161,8 +191,5 @@ body{
 .wrapper .generate-btn:hover{
     background: #2b71f1;
 }
-.copy-wrapper {
-    position: relative;
-    display: inline-block;
-}
+
 
