@@ -3,7 +3,6 @@
     bottom: 0;
     box-sizing:border-box;
 }
-/* */
 body{
     background-color: #0b122e;
     display: flex;
@@ -17,18 +16,36 @@ body{
     border-radius: 5px;
     padding:15px 0;
     background-color: transparent;
+
 }
 .container .cards-wrapper{
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:0 20px;
+    width: 85%;
     margin-inline: auto;
     overflow: hidden;
 
 }
-.container .card{
+.container .slider-track {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0 20px;
+    animation: slideLoop 10s linear 1; /* Set to 1 iteration */
+    transform-origin: center center;
+}
+
+.hide {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: transform 0.5s ease, opacity 0.5s ease; /* Transition opacity too */
+}
+
+.show {
+    opacity: 1;
+    transform: scale(1);
+}
+.container .card {
     min-width:calc(85%/3);
     background-color: #13183d;
     padding: 1.3rem .8rem;
@@ -36,7 +53,12 @@ body{
     color: white;
     border-radius: 10px;
 }
+.container .card.left{
+    transform: translateX(0%);
+}
+.container .card.right{
 
+}
 .card-head img{
     width:100%;
     border-radius: 4px;
@@ -60,7 +82,12 @@ body{
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+    text-align: center;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
 }
+
 .container .symbols-wrapper,
 .notes-wrapper{
     position: absolute;
@@ -87,11 +114,21 @@ body{
     height: 10px;
     border-radius: 50%;
     margin: 10px 20px;
-    border:1px solid #7a5eef;
     cursor: pointer;
+    background-color: #030818;
 }
 .notes-wrapper span.active{
     background-color:#7a5eef ;
     border: 1px solid ;
 }
+/*slide animation*/
+@keyframes slideLoop {
+    0% {
+        transform: translateX(100%);
+    }
+    100%{
+        transform: translateX(-200%);
+    }
+}
+
 
