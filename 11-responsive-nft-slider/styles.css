@@ -22,7 +22,7 @@ body{
     width: 85%;
     margin-inline: auto;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: transparent;
 
 }
 .container .slider-track {
@@ -30,9 +30,6 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
-    transition: transform 0.5s ease-in-out;
-
 }
 .show {
     opacity: 1;
@@ -116,13 +113,13 @@ body{
     border: 1px solid ;
 }
 /*slide animation*/
-/*@keyframes slideLoop {*/
-/*    0% {*/
-/*        transform: translateX(100%);*/
-/*    }*/
-/*    100%{*/
-/*        transform: translateX(-200%);*/
-/*    }*/
-/*}*/
+@keyframes slideLoop {
+    0% {
+        transform: translateX(100%);
+    }
+    100%{
+        transform: translateX(-200%);
+    }
+}
 
 
