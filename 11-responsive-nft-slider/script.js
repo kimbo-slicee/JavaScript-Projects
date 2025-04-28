@@ -83,21 +83,22 @@ const slideTo = (index) => {
     currentIndex = index;
     track.style.transition = 'transform 0.5s ease';
     track.style.transform = `translateX(-${(100 / cardsPerView) * currentIndex}%)`;
-    console.log("current Index:"+index)
-    console.log("translateX value:"+ (100 / cardsPerView) * currentIndex);
+    activePoint()
 };
 
 left.addEventListener("click", () => {
     slideTo(currentIndex - slideStep);
-    activePoint()
+    console.log(currentIndex)
 });
 right.addEventListener("click", () => {
     slideTo(currentIndex + slideStep);
-    activePoint()
+    console.log(currentIndex)
 });
 track.addEventListener("transitionend", handleTransitionEnd);
+
+
+// Handel dots slider
 const showDots=()=>{
-    const dotsCounter=Math.floor(totalCards / cardsPerView);
     const elementFragment=document.createDocumentFragment();
     for(let i=currentIndex  ; i<=totalCards; i+=3){
     const span =document.createElement("span");
@@ -112,11 +113,19 @@ const showDots=()=>{
 const activePoint=()=>{
     spans.forEach((ele)=>{
         ele.classList.remove("active");
-      if(Number(ele.getAttribute("key"))===currentIndex){
-          ele.classList.add("active");
-      }
+        if(Number(ele.getAttribute("key"))===currentIndex){
+            ele.classList.add("active");
+        }else{
+                if(currentIndex===0 || currentIndex===totalCards+cardsPerView){
+                    if(currentIndex===0){
+                        Number(ele.getAttribute('key'))===totalCards?ele.classList.add("active"):""
+                    }else if(currentIndex===totalCards+cardsPerView){
+                        Number(ele.getAttribute('key'))===cardsPerView?ele.classList.add("active"):""
+                    }
+                }
+        }
     })
-}
+    }
 // start
 setupCarousel();
 showDots();
