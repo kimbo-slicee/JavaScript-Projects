@@ -113,6 +113,9 @@ const showDots=()=>{
 const activePoint=()=>{
     spans.forEach((ele)=>{
         ele.classList.remove("active");
+        ele.addEventListener("click",()=>{
+            slideTo(Number(ele.getAttribute("key")))
+        })
         if(Number(ele.getAttribute("key"))===currentIndex){
             ele.classList.add("active");
         }else{
@@ -124,6 +127,8 @@ const activePoint=()=>{
                     }
                 }
         }
+
+
     })
     }
 // start
