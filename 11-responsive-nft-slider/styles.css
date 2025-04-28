@@ -64,7 +64,7 @@ body{
     line-height: 1.3rem;
 
 }
-.container .card button{
+.card button{
     outline: none;
     border: none;
     background-color:#7a5eef;
@@ -73,14 +73,10 @@ body{
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
-    text-align: center;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
 }
 
 .container .symbols-wrapper,
-.notes-wrapper{
+.dots-wrapper{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -95,20 +91,20 @@ body{
     font-size: 3rem;
     z-index: 1;
 }
-.notes-wrapper{
+.dots-wrapper{
     justify-content: center;
     align-items: flex-end;
     top: 10%;
 }
-.notes-wrapper span{
+.dots-wrapper span{
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    margin: 10px 20px;
+    margin: 10px;
     cursor: pointer;
     background-color: #030818;
 }
-.notes-wrapper span.active{
+.dots-wrapper span.active{
     background-color:#7a5eef ;
     border: 1px solid ;
 }
