@@ -1,0 +1,123 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --bg-color:#56baed ;
+}
+body{
+    background:var(--bg-color);
+}
+.select-box,.play-board{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 350px;
+}
+.select-box{
+    background: white;
+    padding: 20px 25px 25px;
+    border-radius: 5px;
+    max-width: 100%;
+    display: none;
+}
+.select-box header{
+    font-weight: 800;
+    font-size: 23px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.select-box .title{
+    font-size: 18px;
+    font-weight: 500;
+    margin: 28px 0;
+}
+.select-box .options{
+    display: flex;
+    width: 100%;
+}
+.options button{
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 8px 0;
+    border: none;
+    outline: none;
+    background: var(--bg-color);
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: transform .5s ease;
+}
+.options button:hover{
+    transform: scale(.9);
+}
+.options button.playerX{
+    margin-right: 5px;
+}
+.options button.playerO{
+    margin-left: 5px;
+}
+/*play Board Styles*/
+.play-board{
+    /*display: none;*/
+}
+.play-board .details{
+    background: white;
+    padding:15px 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+.play-board .details .players{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    position: relative;
+    font-weight: 800;
+}
+.play-board .details .players span:first-child{
+    z-index: 5;
+    color: white;
+}
+.play-board .details .players .slider{
+    background: var(--bg-color);
+    width: 50%;
+    height: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    z-index: 2;
+}
+.play-board .details span{
+    width: 100%;
+    border-radius: 5px;
+    padding: 7px 0;
+    font-size: 19px;
+    font-weight: 500;
+    cursor: default;
+    text-align: center;
+}
+.play-area section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.play-area section span{
+    display:block;
+    margin: 3px;
+    height: 100px;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    font-size: 40px;
+    text-align: center;
+    line-height: 80px;
+    color: var(--bg-color);
+}
+
+
+
+
