@@ -23,7 +23,10 @@ body{
     padding: 20px 25px 25px;
     border-radius: 5px;
     max-width: 100%;
-    /*display: none;*/
+
+}
+.select-box.hide{
+
 }
 .select-box header{
     font-weight: 800;
@@ -80,7 +83,7 @@ body{
     position: relative;
     font-weight: 800;
 }
-.play-board .details .players span:first-child{
+.play-board .details .players span.active{
     z-index: 5;
     color: white;
 }
@@ -119,11 +122,17 @@ body{
     width: 100%;
     background: white;
     border-radius: 5px;
-    font-size: 40px;
-    text-align: center;
-    line-height: 80px;
-    color: var(--bg-color);
     cursor: pointer;
+    text-align: center;
+}
+.play-area section span.clicked{
+    pointer-events: none;
+}
+.play-area section span svg{
+    fill: var(--bg-color);
+    width: 65px;
+    height: 55px;
+    margin-top: 25%;
 }
 .result-box{
     background: white;
@@ -151,12 +160,7 @@ body{
 .result-box .btn button{
     width: 50%;
 }
-svg{
-    fill: var(--bg-color);
-    width: 50px;
-    height: 50px;
-    margin-top: 25%;
-}
+
 
 
 
