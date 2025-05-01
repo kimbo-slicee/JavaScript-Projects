@@ -23,7 +23,7 @@ body{
     padding: 20px 25px 25px;
     border-radius: 5px;
     max-width: 100%;
-    display: none;
+    /*display: none;*/
 }
 .select-box header{
     font-weight: 800;
@@ -92,7 +92,9 @@ body{
     padding: 10px;
     position: absolute;
     z-index: 2;
+    transition: transform .4s ease;
 }
+
 .play-board .details .players span{
     width: 100%;
     border-radius: 5px;
@@ -121,6 +123,7 @@ body{
     text-align: center;
     line-height: 80px;
     color: var(--bg-color);
+    cursor: pointer;
 }
 .result-box{
     background: white;
@@ -147,6 +150,12 @@ body{
 }
 .result-box .btn button{
     width: 50%;
+}
+svg{
+    fill: var(--bg-color);
+    width: 50px;
+    height: 50px;
+    margin-top: 25%;
 }
 
 
