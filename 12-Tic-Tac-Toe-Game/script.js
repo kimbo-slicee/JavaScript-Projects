@@ -4,7 +4,9 @@ const selectBox=document.querySelector(".select-box");
 const playBoard=document.querySelector(".play-board");
 const slider=document.querySelector(".slider");
 const boxes=document.querySelectorAll("section span");
-const sections=document.querySelectorAll("section")
+const rePlayBtn=document.querySelector(".btn button");
+console.log(rePlayBtn);
+const resultBox=document.querySelector(".result-box");
 let player='';
 let isGameOver=false;
 
@@ -33,6 +35,11 @@ const moveSlide=()=>{
         }
     })
 }
+const showResultSlide=(winner)=>{
+    playBoard.classList.replace("show","hide");
+    resultBox.classList.add("show");
+    resultBox.querySelector(".won-text span").innerText=winner;
+}
 // check Winner
 const checkWinner=()=>{
     const winPatterns = [
@@ -54,14 +61,15 @@ const checkWinner=()=>{
     for (let winner of winPatterns) {
         let [a,b,c]=winner;
         if (icons[a] && icons[a] === icons[b] && icons[a] === icons[c]) {
-            console.log(`winner ${icons[a]}`)
+            showResultSlide(icons[a]);
+            isGameOver=true;
+            return;
         }
     }
 }
-
-checkWinner();
 // Boot turn
 const bootTurn=()=>{
+    if(isGameOver) return;
     const randomBox= boxes[Math.floor(Math.random() * boxes.length)];
     setTimeout(()=>{
    if(!randomBox.classList.contains("clicked") && player==="X"){
@@ -80,8 +88,6 @@ const bootTurn=()=>{
        }
    }
      moveSlide();
-     checkWinner();
-
    },500)
 }
 // Handel user Click;
@@ -99,7 +105,9 @@ const handelBoxClicked=()=>{
         }
         bootTurn();
         moveSlide();
+        setTimeout(()=>{
         checkWinner();
+        },500);
     })
 })
 
@@ -108,11 +116,22 @@ const handelBoxClicked=()=>{
 startBtn.forEach((btn)=>{
     btn.addEventListener("click",()=>{
         btn.classList.contains("playerX")?player="X":player="O"
-        setTimeout(()=>{
-            selectBox.style.display="none";
-            playBoard.style.display="block"
-        },300);
+            selectBox.classList.replace("show","hide");
+            setTimeout(()=>{
+            playBoard.classList.add("show");
+            },300)
         handelBoxClicked();
         moveSlide();
     })
 })
+const restart=()=>{
+    player='';
+    boxes.forEach(box=> {
+        box.innerHTML = ``;
+        box.classList.remove("clicked");
+    });
+    resultBox.classList.replace("show","hide");
+    selectBox.classList.replace("hide","show");
+}
+// restart Game
+rePlayBtn.addEventListener("click",restart)
