@@ -4,7 +4,10 @@ const selectBox=document.querySelector(".select-box");
 const playBoard=document.querySelector(".play-board");
 const slider=document.querySelector(".slider");
 const boxes=document.querySelectorAll("section span");
-let player=''
+const sections=document.querySelectorAll("section")
+let player='';
+let isGameOver=false;
+
 
 const OSvgIcon=()=>{
     return `
@@ -31,11 +34,36 @@ const moveSlide=()=>{
     })
 }
 // check Winner
-const checkWinner=()=>{}
+const checkWinner=()=>{
+    const winPatterns = [
+        [0, 1, 2], // top row
+        [3, 4, 5], // middle row
+        [6, 7, 8], // bottom row
+        [0, 3, 6], // left column
+        [1, 4, 7], // middle column
+        [2, 5, 8], // right column
+        [0, 4, 8], // diagonal TL-BR
+        [2, 4, 6]  // diagonal TR-BL
+    ];
+    const icons = [...boxes].map(box => {
+        if (box.innerHTML.includes("svg")) {
+            return box.innerHTML.includes("path d=\"M480-80") ? "O" : "X";
+        }
+        return null;
+    });
+    for (let winner of winPatterns) {
+        let [a,b,c]=winner;
+        if (icons[a] && icons[a] === icons[b] && icons[a] === icons[c]) {
+            console.log(`winner ${icons[a]}`)
+        }
+    }
+}
+
+checkWinner();
 // Boot turn
 const bootTurn=()=>{
-   setTimeout(()=>{
-   const randomBox= boxes[Math.floor(Math.random() * boxes.length)];
+    const randomBox= boxes[Math.floor(Math.random() * boxes.length)];
+    setTimeout(()=>{
    if(!randomBox.classList.contains("clicked") && player==="X"){
        randomBox.innerHTML=XSvgIcon();
        randomBox.classList.add("clicked");
@@ -45,22 +73,20 @@ const bootTurn=()=>{
        randomBox.classList.add("clicked");
        player="X"
    }else {
+       if([...boxes].every(box=>box.classList.contains("clicked"))){
+           alert("game over")
+       }else{
        bootTurn()
+       }
    }
      moveSlide();
+     checkWinner();
+
    },500)
 }
 // Handel user Click;
 const handelBoxClicked=()=>{
-/*
-* 1-user click on box
-* 2-showing icon based on player icons selected
-* 3-change turn to boot turn
-* 4-move slide to active turn
-* 5-add class clicked on the box clicked by user or the Boot
-*/
-
-boxes.forEach((ele)=>{
+    boxes.forEach((ele)=>{
     ele.addEventListener("click",()=>{
         if(player==="X"){
             ele.innerHTML=XSvgIcon();
@@ -73,6 +99,7 @@ boxes.forEach((ele)=>{
         }
         bootTurn();
         moveSlide();
+        checkWinner();
     })
 })
 
