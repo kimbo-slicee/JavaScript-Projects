@@ -19,7 +19,7 @@ body{
     position: absolute;
     width: 350px;
     transform:scale(0);
-    transition:transform .5s ease , opacity .5s ease;
+    transition:transform .3s ease , opacity .3s ease;
 }
 .select-box{
     background: white;
@@ -95,6 +95,16 @@ div:where(.play-board,.result-box){
     position: relative;
     font-weight: 800;
 }
+.play-board .details .players span{
+    width: 100%;
+    border-radius: 5px;
+    padding: 7px 0;
+    font-size: 19px;
+    font-weight: 800;
+    cursor: default;
+    text-align: center;
+    color: #56baed;
+}
 .play-board .details .players span.active{
     z-index: 5;
     color: white;
@@ -109,18 +119,7 @@ div:where(.play-board,.result-box){
     z-index: 2;
     transition: transform .4s ease;
 }
-
-.play-board .details .players span{
-    width: 100%;
-    border-radius: 5px;
-    padding: 7px 0;
-    font-size: 19px;
-    font-weight: 800;
-    cursor: default;
-    text-align: center;
-    color: #56baed;
-
-}
+/*player Area Style*/
 .play-area section{
     display: flex;
     align-items: center;
