@@ -216,16 +216,28 @@ const ticTacToeGame = {
             box.addEventListener("click", () => this.displayIcon(box));
         });
     },
-
+    /**
+    * change turn
+    * */
+    goToNextTurn:function (){
+        this.state.currentPlayer==="X"?this.state.currentPlayer="O":this.state.currentPlayer="X";
+        this.updateTurnIndicator();
+    },
     /**
      * Display the current player's icon inside the clicked box
      */
     displayIcon(box) {
         if (!box.classList.contains("clicked")) {
-            box.innerHTML = this.state.currentPlayer === "X"
-                ? this.icons.getX()
-                : this.icons.getO();
+            box.innerHTML = this.state.currentPlayer === "X" ? this.icons.getX() : this.icons.getO();
+            box.classList.add("clicked");
+            this.goToNextTurn();
         }
+    },
+    /**
+     * Boot Player turn
+     * */
+    bootTurn:function (){
+
     },
 
     /**
