@@ -158,6 +158,7 @@ const ticTacToeGame = {
         // Track current player and game status
         currentPlayer: '',
         isGameOver: false,
+        bootTurn:false
     },
 
     icons: {
@@ -173,7 +174,6 @@ const ticTacToeGame = {
       </svg>
     `
     },
-
     /**
      * Handle user selecting X or O at game start
      */
@@ -182,9 +182,7 @@ const ticTacToeGame = {
             button.addEventListener("click", () => {
                 // Set current player based on clicked button class
                 this.state.currentPlayer = button.classList[0].includes('X') ? "X" : "O";
-
                 this.updateTurnIndicator();
-
                 // Hide selection UI and show game board
                 this.elements.selectBox.classList.replace("show", "hide");
                 setTimeout(() => {
@@ -193,7 +191,6 @@ const ticTacToeGame = {
             });
         });
     },
-
     /**
      * Update UI to reflect the current player's turn
      */
@@ -202,12 +199,10 @@ const ticTacToeGame = {
         this.elements.playerIndicators.forEach(el => {
             el.classList.toggle("active", el.className.includes(this.state.currentPlayer));
         });
-
         // Move slider to the correct side based on turn
         this.elements.slider.style.transform =
             this.state.currentPlayer === "X" ? "translateX(0)" : "translateX(100%)";
     },
-
     /**
      * Setup click handlers for all boxes on the board
      */
@@ -228,22 +223,47 @@ const ticTacToeGame = {
      */
     displayIcon(box) {
         if (!box.classList.contains("clicked")) {
-            box.innerHTML = this.state.currentPlayer === "X" ? this.icons.getX() : this.icons.getO();
+            const current = this.state.currentPlayer;
+            box.innerHTML = current === "X" ? this.icons.getX() : this.icons.getO();
             box.classList.add("clicked");
             this.goToNextTurn();
+            // ✅ Call bot only after the human plays
+            if (current === "X") {
+                this.elements.boxes.forEach(box=>box.classList.add("pending"))
+                setTimeout(() => this.bootTurn(), 1000);
+            }
         }
     },
-    /**
-     * Boot Player turn
-     * */
     bootTurn:function (){
-
+        const availableBoxes = [...this.elements.boxes].filter(box => !box.classList.contains("clicked"));
+        if (availableBoxes.length === 0){
+            // gameOver();
+            return;
+        }
+        const randomIndex = Math.floor(Math.random() * availableBoxes.length);
+        availableBoxes[randomIndex].click();
+        this.state.bootTurn=false;
+        [...this.elements.boxes].forEach(box=>box.classList.remove("pending"));
     },
-
+    /**
+     * check winner
+     */
+    checkWinner:function (){
+    const winPatterns = [
+        [0, 1, 2], // top row
+        [3, 4, 5], // middle row
+        [6, 7, 8], // bottom row
+        [0, 3, 6], // left column
+        [1, 4, 7], // middle column
+        [2, 5, 8], // right column
+        [0, 4, 8], // diagonal TL-BR
+        [2, 4, 6]  // diagonal TR-BL
+    ];
+    },
     /**
      * Initialize the game: set up events
      */
-    init() {
+     init() {
         this.handlePlayerSelection();
         this.handleBoxClick();
     }

@@ -109,6 +109,11 @@ div:where(.play-board,.result-box){
     z-index: 5;
     color: white;
 }
+/**/
+span.pending{
+    opacity: .5;
+    pointer-events: none;
+}
 .play-board .details .players .slider{
     background: var(--bg-color);
     width: 50%;
@@ -138,6 +143,7 @@ div:where(.play-board,.result-box){
 }
 .play-area section span.clicked{
     pointer-events: none;
+    opacity: .8;
 }
 .play-area section span svg{
     fill: var(--bg-color);
