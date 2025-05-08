@@ -216,6 +216,7 @@ const ticTacToeGame = {
     * */
     goToNextTurn:function (){
         this.state.currentPlayer==="X"?this.state.currentPlayer="O":this.state.currentPlayer="X";
+        this.state.bootTurn=!this.state.bootTurn
         this.updateTurnIndicator();
     },
     /**
@@ -227,28 +228,27 @@ const ticTacToeGame = {
             box.innerHTML = current === "X" ? this.icons.getX() : this.icons.getO();
             box.classList.add("clicked");
             this.goToNextTurn();
-            // ✅ Call bot only after the human plays
-            if (current === "X") {
+            if (this.state.bootTurn){
                 this.elements.boxes.forEach(box=>box.classList.add("pending"))
                 setTimeout(() => this.bootTurn(), 1000);
             }
+            this.checkWinner();
         }
     },
     bootTurn:function (){
         const availableBoxes = [...this.elements.boxes].filter(box => !box.classList.contains("clicked"));
-        if (availableBoxes.length === 0){
-            // gameOver();
-            return;
-        }
+        if (availableBoxes.length === 0)return;
+
         const randomIndex = Math.floor(Math.random() * availableBoxes.length);
         availableBoxes[randomIndex].click();
-        this.state.bootTurn=false;
         [...this.elements.boxes].forEach(box=>box.classList.remove("pending"));
+        this.state.bootTurn=false;
     },
     /**
      * check winner
      */
-    checkWinner:function (){
+    checkWinner(){
+    //the algorithm to check the winner
     const winPatterns = [
         [0, 1, 2], // top row
         [3, 4, 5], // middle row
@@ -259,7 +259,35 @@ const ticTacToeGame = {
         [0, 4, 8], // diagonal TL-BR
         [2, 4, 6]  // diagonal TR-BL
     ];
+    /**
+     * we have to cases the first case where there is no winner
+     * second case that's there is a winner and we need to Know how is
+     * */
+    // const boxes=[...this.elements.boxes].map((box)=>{
+    //     if(box.innerHTML.includes("svg")){
+    //         return box.innerHTML.includes("path d=\"M480-80") ? "O" : "X";
+    //     }
+    //     return null;
+    // })
+    //     for (const winPattern of winPatterns) {
+    //         const [a,b,c]=winPattern;
+    //         if(boxes[a] && boxes[a]===boxes[b] && boxes[b]===boxes[c]){
+    //             this.showResultBox();
+    //         }
+    //     }
     },
+    showResultBox:function (){
+        this.elements.playBoard.classList.replace("show","hide");
+        setTimeout(()=>this.elements.resultBox.classList.add("show"),500);
+        console.log(this.state.currentPlayer);
+    },
+    gameOver:function (){
+        //
+    },
+    rePlay:function (){
+
+    },
+
     /**
      * Initialize the game: set up events
      */
