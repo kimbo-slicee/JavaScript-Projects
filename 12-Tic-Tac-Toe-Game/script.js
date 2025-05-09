@@ -10,6 +10,7 @@ const ticTacToeGame = {
         boxes: document.querySelectorAll("section span"),
         replayButton: document.querySelector(".btn button"),
         resultBox: document.querySelector(".result-box"),
+        resultBoxText: document.querySelector(".result-box .text"),
     },
 
     state: {
@@ -81,18 +82,26 @@ const ticTacToeGame = {
      * Display the current player's icon inside the clicked box
      */
     displayIcon(box) {
-        if (!box.classList.contains("clicked")) {
-            const current = this.state.currentPlayer;
-            box.innerHTML = current === "X" ? this.icons.getX() : this.icons.getO();
-            box.classList.add("clicked");
-            this.goToNextTurn();
-            if (this.state.bootTurn){
-                this.elements.boxes.forEach(box=>box.classList.add("pending"))
-                setTimeout(() => this.bootTurn(), 1000);
-            }
-            this.endGame();
+        if (this.state.isGameOver || box.classList.contains("clicked")) return;
+        const current = this.state.currentPlayer;
+        box.dataset.player = current;
+        box.innerHTML = current === "X" ? this.icons.getX() : this.icons.getO();
+        box.classList.add("clicked");
+        if (this.winner()) return;
+        const allFilled = [...this.elements.boxes].every(box => box.classList.contains("clicked"));
+        if (allFilled) {
+            this.showResulBox(); // No winner: draw
+            this.state.isGameOver = true;
+            return;
+        }
+        this.goToNextTurn();
+
+        if (this.state.bootTurn) {
+            this.elements.boxes.forEach(box => box.classList.add("pending"));
+            setTimeout(() => this.bootTurn(), 1000);
         }
     },
+
     bootTurn(){
         const availableBoxes = [...this.elements.boxes].filter(box => !box.classList.contains("clicked"));
         if (availableBoxes.length === 0)return;
@@ -104,43 +113,59 @@ const ticTacToeGame = {
     /**
      * check winner if some one winne
      */
-    winner(){
-    //the algorithm to check the winner
-    const winPatterns = [
-        [0, 1, 2], // top row
-        [3, 4, 5], // middle row
-        [6, 7, 8], // bottom row
-        [0, 3, 6], // left column
-        [1, 4, 7], // middle column
-        [2, 5, 8], // right column
-        [0, 4, 8], // diagonal TL-BR
-        [2, 4, 6]  // diagonal TR-BL
-    ];
-    const boxes=[...this.elements.boxes].map((box)=>{
-        if(box.innerHTML.includes("svg")){
-            return box.innerHTML.includes("path d=\"M480-80") ? "O" : "X";
-        }
-        return null;
-    })
-        for (const winPattern of winPatterns) {
-            const [a,b,c]=winPattern;
-            if(boxes[a] && boxes[a]===boxes[b] && boxes[b]===boxes[c]){
-            this.showResultBox()
-            this.elements.resultBox.innerHTML=`player <span>${this.state.currentPlayer}</span>Winne`
+    winner() {
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+        const boxes = [...this.elements.boxes].map(box => box.dataset.player || null);
+        for (const [a, b, c] of winPatterns) {
+            if (boxes[a] && boxes[a] === boxes[b] && boxes[b] === boxes[c]) {
+                this.showResulBox(boxes[a]);
+                this.state.isGameOver = true;
+                return true;
             }
         }
+        return false;
     },
+
     /*showing draw if no one winne */
-    draw(){
-        this.showResultBox();
-        this.elements.resultBox.innerHTML=`<span>X</span><span>O</span> Draw`
+    showResulBox(winner = null) {
+        this.elements.playBoard.classList.replace("show", "hide");
+        setTimeout(() => {
+            this.elements.resultBox.classList.add("show");
+            if (winner) {
+                this.elements.resultBoxText.innerHTML = `Player <span>${winner}</span> wins`;
+            } else {
+                this.elements.resultBoxText.innerHTML = `<span>X</span><span>O</span> Draw`;
+            }
+        }, 500);
     },
-    endGame(){
-       [...this.elements.boxes].every(box=>box.classList.contains("clicked"))?this.draw():this.winner();
-    },
-    showResultBox(){
-        this.elements.playBoard.classList.replace("show","hide");
-        setTimeout(()=>this.elements.resultBox.classList.add("show"),500);
+    /**
+     * replay Game
+     * */
+    rePlay() {
+        this.elements.replayButton.addEventListener("click", () => {
+            // Reset game state
+            this.state.currentPlayer = '';
+            this.state.isGameOver = false;
+            this.state.bootTurn = false;
+
+            // Reset board boxes
+            this.elements.boxes.forEach(box => {
+                box.innerHTML = '';
+                box.classList.remove("clicked", "pending");
+                delete box.dataset.player;
+            });
+
+            // Hide result box and show select box
+            this.elements.resultBox.classList.replace("show", "hide");
+            this.elements.playBoard.classList.replace("show", "hide"); // Ensure board is hidden
+            setTimeout(() => {
+                this.elements.selectBox.classList.replace("hide", "show");
+            }, 300);
+        });
     },
 
     /**
@@ -149,6 +174,7 @@ const ticTacToeGame = {
      init() {
         this.handlePlayerSelection();
         this.handleBoxClick();
+        this.rePlay();
     }
 };
 

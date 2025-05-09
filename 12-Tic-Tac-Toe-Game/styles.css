@@ -1,186 +1,204 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-:root{
-    --bg-color:#56baed ;
+
+:root {
+    --bg-color: #56baed;
+    --text-color: white;
+    --card-bg: white;
+    --transition: transform 0.4s ease, opacity 0.4s ease;
+    --border-radius: 5px;
 }
-body{
-    background:var(--bg-color);
+
+body {
+    background: var(--bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
 }
+
+/* Shared Box Style */
 .select-box,
 .play-board,
-.result-box{
+.result-box {
     position: absolute;
     width: 350px;
-    transform:scale(0);
-    transition:transform .3s ease , opacity .3s ease;
+    display: none;
+    transform: scale(0);
+    transition: var(--transition);
 }
-.select-box{
-    background: white;
-    padding: 20px 25px 25px;
-    border-radius: 5px;
-    max-width: 100%;
-}
-.hide{
+
+/* Visibility classes */
+.hide {
     opacity: 0;
     transform: scale(0);
 }
-.show{
+
+.show {
     opacity: 1;
     transform: scale(1);
     display: block;
-
 }
-/*hide play Bord and result */
-div:where(.play-board,.result-box){
+
+/* Hide play-board and result-box by default */
+div:where(.play-board, .result-box) {
     opacity: 0;
     transform: scale(0);
     display: none;
 }
-.select-box header{
+
+/* Select Box */
+.select-box {
+    background: var(--card-bg);
+    padding: 20px 25px 25px;
+    border-radius: var(--border-radius);
+    max-width: 100%;
+}
+
+.select-box header {
     font-weight: 800;
     font-size: 23px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ccc;
 }
-.select-box .title{
+
+.select-box .title {
     font-size: 18px;
     font-weight: 500;
     margin: 28px 0;
 }
-.select-box .options{
+
+.select-box .options {
     display: flex;
     width: 100%;
 }
+
 .options button,
-.result-box .btn button{
+.result-box .btn button {
     width: 100%;
     font-size: 18px;
     font-weight: 500;
     padding: 8px 10px;
+    background: var(--bg-color);
     border: none;
     outline: none;
-    background: var(--bg-color);
     border-radius: 4px;
-    color: white;
+    color: var(--text-color);
     cursor: pointer;
-    transition: transform .5s ease;
+    transition: transform 0.5s ease;
 }
-.options button:hover,.result-box .btn button:hover{
-    transform: scale(.9);
+
+.options button:hover,
+.result-box .btn button:hover {
+    transform: scale(0.9);
 }
-.options button.playerX{
+
+.options button.playerX {
     margin-right: 5px;
 }
-.options button.playerO{
+
+.options button.playerO {
     margin-left: 5px;
 }
-/*play Board Styles*/
-.play-board .details{
-    background: white;
-    padding:15px 10px;
-    border-radius: 5px;
+
+/* Play Board */
+.play-board .details {
+    background: var(--card-bg);
+    padding: 15px 10px;
+    border-radius: var(--border-radius);
     margin-bottom: 15px;
 }
-.play-board .details .players{
+
+.play-board .players {
     display: flex;
-    width: 100%;
     justify-content: space-between;
     position: relative;
     font-weight: 800;
 }
-.play-board .details .players span{
+
+.play-board .players span {
     width: 100%;
-    border-radius: 5px;
     padding: 7px 0;
     font-size: 19px;
     font-weight: 800;
-    cursor: default;
     text-align: center;
-    color: #56baed;
+    border-radius: var(--border-radius);
+    color: var(--bg-color);
+    cursor: default;
 }
-.play-board .details .players span.active{
+
+.play-board .players span.active {
     z-index: 5;
-    color: white;
+    color: var(--text-color);
 }
-/**/
-span.pending{
-    opacity: .5;
-    pointer-events: none;
-}
-.play-board .details .players .slider{
+
+.play-board .players .slider {
     background: var(--bg-color);
     width: 50%;
     height: 100%;
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: var(--border-radius);
     position: absolute;
     z-index: 2;
-    transition: transform .4s ease;
+    transition: transform 0.4s ease;
 }
-/*player Area Style*/
-.play-area section{
+
+/* Play Area */
+.play-area section {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
-.play-area section span{
-    display:block;
+
+.play-area section span {
+    display: block;
     margin: 3px;
     height: 100px;
     width: 100%;
-    background: white;
-    border-radius: 5px;
-    cursor: pointer;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
     text-align: center;
+    cursor: pointer;
 }
-.play-area section span.clicked{
+
+.play-area section span.clicked {
     pointer-events: none;
-    opacity: .8;
+    opacity: 0.8;
 }
-.play-area section span svg{
+
+.play-area section span svg {
     fill: var(--bg-color);
     width: 65px;
     height: 55px;
     margin-top: 25%;
 }
-/*Result Box Showing winner */
-.result-box{
-    background: white;
-    padding: 20px;
-    min-width: 400px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
+
+span.pending {
+    opacity: 0.5;
+    pointer-events: none;
 }
-.result-box .won-text{
+
+/* Result Box */
+.result-box {
+    display: block;
+    background: var(--card-bg);
+    min-width: 400px;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.result-box .winner .text {
     font-size: 25px;
     font-weight: normal;
-    width: 100%;
-    text-wrap: none;
+    margin-bottom: 10px;
+    white-space: nowrap;
 }
-.result-box .won-text span{
+
+.result-box .text span {
     font-weight: bolder;
     margin: 0 3px;
 }
-.result-box div img{
-    width: 50%;
-}
-
-
-
-
-
-
-
-
