@@ -37,18 +37,89 @@ body {
     border-bottom: 1px  solid var(--bg-color) ;
     cursor: pointer;
 }
-.navBar .theme i{
-    font-size: 1.2rem;
-    color: var(--bg-color);
-    cursor: pointer;
-    position: absolute;
-    bottom: 25%;
-    transition: transform .4s ease-out , opacity .4s ease-out;
-    transform-origin: center bottom;
+/* From Uiverse.io by andrew-demchenk0 */
+.switch {
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 20px;
 }
-.navBar .theme i.active{
+
+.switch input {
     opacity: 0;
-    transform: translateY(100%);
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-color);
+    transition: .4s;
+    border-radius: 30px;
+    padding: 5px 10px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: #e8e8e8;
+    transition: .4s;
+}
+
+.sun svg {
+    position: absolute;
+    top: 0;
+    left: 30px;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+}
+
+.moon svg {
+    fill: #e8e8e8;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+}
+
+.sun svg {
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.input:checked + .slider {
+    background-color: #000;
+}
+
+.input:focus + .slider {
+    box-shadow: 0 0 1px #000;
+}
+
+.input:checked + .slider:before {
+    transform: translateX(30px);
 }
 .wrapper{
     width: 605px;
@@ -56,6 +127,7 @@ body {
     border-radius: 15px;
     padding: 30px 30px 25px;
 }
+/*Header Styles*/
 .wrapper header{
     font-size: 35px;
     font-weight: 600;
