@@ -2,7 +2,7 @@
  and localStorage)the main Goal it's to practice all the ideas  ✈*/
 const card=document.querySelector(":root");
 const modesIcons=document.querySelectorAll(".theme i");
-const theme=document.querySelector(".theme")
+const theme=document.querySelector(".theme");
 // change bg color every load
 const randomColors=()=>{
     // we want a random colors except dark and white bcs of dark and light mode
@@ -19,17 +19,23 @@ const changeMode=()=>{
             :card.style.setProperty('--bg-color',darkTheme);
     }));
 }
-changeMode();
 // Get Random Quotes
 const getData=async ()=>{
     try {
         const call = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"))
         if (!call.ok) throw new Error(`Response status: ${call.status}`);
-        const json = await call.json();
-        return JSON.parse(json.contents)
+        return  await call.json()
     } catch (error) {
         console.error(error.message);
     }
 }
-getData();
+const quotes= async ()=>{
+    const randomQuote= await getData().then((quote=>JSON.parse(quote.contents)));
+    let quote=document.querySelector(".quote");
+    let author=document.querySelector(".author");
+    quote.textContent=randomQuote[0].q;
+    author.textContent=randomQuote[0].a;
+}
+quotes();
+changeMode();
 

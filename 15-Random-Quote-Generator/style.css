@@ -138,7 +138,7 @@ body {
 }
 .features button:hover,
 .features ul li:hover{
-    background: #2e59ef;
+    background: var(--bg-color);
     color: var(--text-color);
 }
 
