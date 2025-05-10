@@ -18,6 +18,38 @@ body {
     justify-content: center;
     min-height: 100vh;
 }
+.navBar{
+    width: 100%;
+    background-color: var(--card-bg);
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+}
+.navBar .logo{
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: bolder;
+    font-family: "Arabic Typesetting",sans-serif;
+    color: var(--bg-color);
+    border-bottom: 1px  solid var(--bg-color) ;
+    cursor: pointer;
+}
+.navBar .theme i{
+    font-size: 1.2rem;
+    color: var(--bg-color);
+    cursor: pointer;
+    position: absolute;
+    bottom: 25%;
+    transition: transform .4s ease-out , opacity .4s ease-out;
+    transform-origin: center bottom;
+}
+.navBar .theme i.active{
+    opacity: 0;
+    transform: translateY(100%);
+}
 .wrapper{
     width: 605px;
     background-color:var(--card-bg);
@@ -28,6 +60,7 @@ body {
     font-size: 35px;
     font-weight: 600;
     text-align: center;
+    color: var(--bg-color);
 }
 .wrapper .content{
     margin: 35px;
@@ -38,7 +71,9 @@ body {
 }
 .quote-area i{
     font-size: 15px;
+    color: var(--bg-color);
 }
+
 .quote-area i:first-child{
     margin: 3px 10px 0 0;
 }
