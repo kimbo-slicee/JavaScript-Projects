@@ -1,38 +1,101 @@
-const wrapper=document.querySelector(".wrapper");
-const searchInput=document.querySelector("input");
-let isLogin=false
+const wrapper = document.querySelector(".wrapper");
+const ul = wrapper.querySelector("ul");
+const searchInput = document.querySelector("input");
+const textInfo = document.querySelector(".info-text");
+const spinner = document.querySelector(".spinner");
+let isLoading = false;
 
-const loading=()=>{
-    const spinner=document.querySelector(".spinner");
-    const textInfo=document.querySelector(".info-text");
-    if(isLogin){
-    textInfo.style.display="none";
-    spinner.style.display="grid";
-    }
-    spinner.style.display="none";
+const createWordEntry=()=>{
+    return`
+            <li class="word">
+                <div class="details">
+                    <p>happy</p>
+                    <span>adjective/'hapi/</span>
+                </div>
+                <i class="fa-solid fa-volume-high"></i>
+            </li>
+            <div class="content">
+            <li class="meaning">
+                <div class="details">
+                    <p>Meaning</p>
+                    <span>feeling or showing pleasure or contentment</span>
+                </div>
+            </li>
+                <li class="example">
+                    <div class="details">
+                        <p>Example</p>
+                        <span>feeling or showing pleasure or contentment</span>
+                    </div>
+                </li>
+                <li class="synonyms">
+                    <div class="details">
+                        <p>Synonyms</p>
+                        <div class="list">
+                            <span>glad</span>
+                            <span>contented</span>
+                            <span>cheerful</span>
+                            <span>joyful</span>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>`
 }
-function getData(word) {
-const URL=`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+
+const toggleLoading = () => {
+    if (isLoading) {
+        textInfo.style.display = "none";
+        spinner.style.display = "grid";
+    } else {
+        spinner.style.display = "none";
+    }
+};
+
+const fetchData = (word) => {
+    const URL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+
     return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();// XMLHttpRequest doesn't support promises by default
+        const xhr = new XMLHttpRequest();
         xhr.open("GET", URL);
         xhr.onload = () => {
-            loading();
+            toggleLoading();
             if (xhr.status === 200) {
-                resolve(JSON.parse(xhr.responseText));
+                setTimeout(() => {
+                    isLoading = false;
+                    resolve(JSON.parse(xhr.responseText));
+                }, 500);
             } else {
+                isLoading = false;
                 reject(`Error: ${xhr.status}`);
             }
         };
-        xhr.onerror = () => reject("Network error");
+        xhr.onerror = () => {
+            isLoading = false;
+            reject("Network error");
+        };
         xhr.send();
     });
-}
-// creat handel Search function to handel user search
-const handelSearch=(e)=>{
-    if(e.key==="Enter" && searchInput.value){
-        getData(searchInput.value);
-    }
-}
-searchInput.addEventListener("keypress",handelSearch)
+};
 
+const displayData = (data) => {
+    ul.style.display="block";
+    toggleLoading();
+    data.map(ele=>console.log(ele))
+};
+
+const displayError = (error) => {
+    toggleLoading();
+    console.error(error);
+};
+
+const handleSearch = (e) => {
+    if (e.key === "Enter" && searchInput.value.trim()) {
+        isLoading = true;
+        toggleLoading();
+        fetchData(searchInput.value.trim())
+            .then(displayData)
+            .catch(displayError);
+    }
+};
+
+searchInput.addEventListener("keypress", handleSearch);

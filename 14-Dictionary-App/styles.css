@@ -148,6 +148,11 @@ ul .word i{
     border-radius: 5px 0 0 4px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     width: 100%;
+    background: transparent;
+    transition:transform .4s ease-out ;
+}
+.content li .details:hover{
+    transform: scale(1.08);
 }
 .content li:first-child .details{
     border-left: 3px solid var(--bg-color);
