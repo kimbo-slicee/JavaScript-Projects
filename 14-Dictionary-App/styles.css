@@ -28,6 +28,7 @@ body {
     background: var(--bg-container);
     border-radius: 10px;
     padding: 28px 28px 45px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 /* Header */
@@ -174,5 +175,36 @@ ul .word i{
     text-decoration: underline;
     cursor: pointer;
 }
+/* Loading Css style */
+.spinner {
+    width: 46px;
+    height: 46px;
+    display: none;
+    animation: spinner-plncf9 3s infinite;
+    position: relative;
+    margin-inline: auto;
+    margin-top: 20px;
 
+}
 
+.spinner::before,
+.spinner::after {
+    content: "";
+    grid-area: 1/1;
+    border: 9px solid;
+    border-radius: 50%;
+    border-color: var(--bg-color) var(--bg-color) #0000 #0000;
+    mix-blend-mode: darken;
+    animation: spinner-plncf9 1s infinite linear;
+}
+
+.spinner::after {
+    border-color: #0000 #0000 #dbdcef #dbdcef;
+    animation-direction: reverse;
+}
+
+@keyframes spinner-plncf9 {
+    100% {
+        transform: rotate(1turn);
+    }
+}
