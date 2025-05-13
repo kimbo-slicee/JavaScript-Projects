@@ -1,101 +1,79 @@
+// DOM Element References
 const wrapper = document.querySelector(".wrapper");
 const ul = wrapper.querySelector("ul");
 const searchInput = document.querySelector("input");
 const textInfo = document.querySelector(".info-text");
 const spinner = document.querySelector(".spinner");
+const searchIcon = document.querySelector(".search i");
 let isLoading = false;
 
-const createWordEntry=()=>{
-    return`
-            <li class="word">
-                <div class="details">
-                    <p>happy</p>
-                    <span>adjective/'hapi/</span>
-                </div>
-                <i class="fa-solid fa-volume-high"></i>
-            </li>
-            <div class="content">
-            <li class="meaning">
-                <div class="details">
-                    <p>Meaning</p>
-                    <span>feeling or showing pleasure or contentment</span>
-                </div>
-            </li>
-                <li class="example">
-                    <div class="details">
-                        <p>Example</p>
-                        <span>feeling or showing pleasure or contentment</span>
-                    </div>
-                </li>
-                <li class="synonyms">
-                    <div class="details">
-                        <p>Synonyms</p>
-                        <div class="list">
-                            <span>glad</span>
-                            <span>contented</span>
-                            <span>cheerful</span>
-                            <span>joyful</span>
-                        </div>
-                    </div>
-                </li>
-            </div>
-        </ul>`
-}
-
-const toggleLoading = () => {
-    if (isLoading) {
-        textInfo.style.display = "none";
-        spinner.style.display = "grid";
-    } else {
-        spinner.style.display = "none";
-    }
+// Toggle Loading State
+const toggleLoading = (state) => {
+    isLoading = state;
+    spinner.style.display = isLoading ? "grid" : "none";
+    textInfo.style.display = isLoading ? "none" : "block";
 };
 
+// Fetch Data from API
 const fetchData = (word) => {
     const URL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
 
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", URL);
+
         xhr.onload = () => {
-            toggleLoading();
             if (xhr.status === 200) {
                 setTimeout(() => {
-                    isLoading = false;
                     resolve(JSON.parse(xhr.responseText));
                 }, 500);
             } else {
-                isLoading = false;
                 reject(`Error: ${xhr.status}`);
             }
+            toggleLoading(false);
         };
+
         xhr.onerror = () => {
-            isLoading = false;
+            toggleLoading(false);
             reject("Network error");
         };
+
         xhr.send();
     });
 };
 
-const displayData = (data) => {
-    ul.style.display="block";
-    toggleLoading();
-    data.map(ele=>console.log(ele))
-};
-
-const displayError = (error) => {
-    toggleLoading();
-    console.error(error);
-};
-
+// 🧠 Handle Search Input
 const handleSearch = (e) => {
-    if (e.key === "Enter" && searchInput.value.trim()) {
-        isLoading = true;
-        toggleLoading();
-        fetchData(searchInput.value.trim())
+    const isEnter = e.key === "Enter";
+    const isClick = e.type === "click";
+    const word = searchInput.value.trim();
+    if ((isEnter || isClick) && word) {
+        toggleLoading(true);
+        fetchData(word)
             .then(displayData)
             .catch(displayError);
     }
 };
 
+//  Display API Data
+const displayData = ([{ word, phonetics, meanings }]) => {
+    createWordEntry({ word, phonetics, meanings });
+};
+
+// Display Errors
+const displayError = (error) => {
+    console.error(error);
+    textInfo.textContent = "No definition found or a network error occurred.";
+};
+
+// Generate UI for Word Entry (placeholder)
+const createWordEntry = ({ word, phonetics, meanings }) => {
+    // Implementation goes here
+    console.log("Word:", word);
+    console.log("Phonetics:", phonetics);
+    console.log("Meanings:", meanings);
+};
+
+// Event Listeners
 searchInput.addEventListener("keypress", handleSearch);
+searchIcon.addEventListener("click", handleSearch);
