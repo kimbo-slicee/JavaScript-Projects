@@ -114,7 +114,7 @@ body {
     font-style: italic;
 }
 .wrapper ul{
-    display: none;
+    /*display: none;*/
 }
 
 .wrapper ul li{
@@ -135,8 +135,29 @@ body {
     font-weight: 500;
 }
 ul .word span{
-    font-size: 12px;
+    font-size: 13px;
     color: #989898;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+/*ul .word span:hover{*/
+/*}*/
+ul .word span.active:first-child{
+    color: var(--bg-color);
+    text-decoration: underline;
+}
+ul .word span.active:nth-child(2){
+    color:#e7b61a ;
+    text-decoration: underline;
+
+}
+ul .word span.active:nth-child(3){
+    color: #8216a0;
+    text-decoration: underline;
+}
+ul .word span.active:last-child{
+    color: #d93838;
+    text-decoration: underline;
 }
 ul .word i{
     cursor: pointer;
@@ -160,6 +181,9 @@ ul .word i{
 .content li:nth-child(2) .details{
     border-left: 3px solid #e7b61a;
 }
+.content li:nth-child(3) .details{
+    border-left: 3px solid #a4a2a2;
+}
 .content li:last-child .details{
     border-left: 3px solid #d93838;
 }
@@ -175,7 +199,7 @@ ul .word i{
     display: flex;
     flex-wrap: wrap;
 }
-.synonyms .details .list span{
+.synonyms .details .list span,.anonymous .details .list span{
     margin-right: 5px;
     text-decoration: underline;
     cursor: pointer;
@@ -189,7 +213,6 @@ ul .word i{
     position: relative;
     margin-inline: auto;
     margin-top: 20px;
-
 }
 
 .spinner::before,
