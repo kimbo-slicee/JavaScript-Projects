@@ -1,18 +1,46 @@
 // DOM Element References
 const wrapper = document.querySelector(".wrapper");
-const ul = wrapper.querySelector("ul");
 const searchInput = document.querySelector("input");
 const textInfo = document.querySelector(".info-text");
 const spinner = document.querySelector(".spinner");
 const searchIcon = document.querySelector(".search i");
+const xIcon=document.querySelector(".search .fa-xmark");
+let word='';
 let isLoading = false;
-
 // Toggle Loading State
 const toggleLoading = (state) => {
     isLoading = state;
     spinner.style.display = isLoading ? "grid" : "none";
     textInfo.style.display = isLoading ? "none" : "block";
 };
+const cleanInput=()=>{
+    searchInput.value=''
+    xIcon.style.display='none'
+}
+// sense the api response return different entry's i need to chose the largest object that's contain a loot of
+// meanings
+const handelAPIResponse=(allEntries)=>{
+    const bestEntry =  allEntries.reduce((best, current) => {
+    const bestCount = best.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
+    const currentCount = current.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
+    return currentCount > bestCount ? current : best;
+});
+    displayData(bestEntry)
+}
+const handleSearch = (e) => {
+    const isEnter = e.key === "Enter";
+    const isClick = e.type === "click";
+    word = searchInput.value.trim();
+    word.length>=1?xIcon.style.display="block":xIcon.style.display="none"
+    if ((isEnter || isClick) && word) {
+        cleanInput()
+        toggleLoading(true);
+        fetchData(word)
+            .then(handelAPIResponse)
+            .catch(displayError);
+    }
+};
+
 
 // Fetch Data from API
 const fetchData = (word) => {
@@ -38,74 +66,48 @@ const fetchData = (word) => {
     });
 };
 
-// 🧠 Handle Search Input
-const handleSearch = (e) => {
-    const isEnter = e.key === "Enter";
-    const isClick = e.type === "click";
-    const word = searchInput.value.trim();
-    if ((isEnter || isClick) && word) {
-        toggleLoading(true);
-        fetchData(word)
-            .then(displayData)
-            .catch(displayError);
-    }
+// Display Errors
+const displayError = (error) => {
+    console.error(error)
+    textInfo.innerHTML=`No definition found for the word <b>${word}</b>`;
 };
 
 //  Display API Data
-const displayData = ([{ word, phonetics, meanings }]) => {
-    textInfo.style.display="none";
-    createWordEntry({ word, phonetics, meanings });
+const displayData = (response) => {
+    textInfo.style.display = "none";
+    const ul = document.createElement("ul");
+    ul.style.display = "block";
+    // Append the word details
+    ul.appendChild(generateWordDetails(response));
+    // Append to the wrapper
+    wrapper.appendChild(ul);
 };
 
-// Display Errors
-const displayError = (error) => {
-    console.error(error);
-    textInfo.textContent = "No definition found or a network error occurred.";
-};
-
-// Generate UI for Word Entry (placeholder)
-const createWordEntry = ({ word, phonetics, meanings }) => {
-    const ul=document.createElement("ul");
-    ul.appendChild(getPartOfSpeech(word,meanings,phonetics))
-    wrapper.appendChild(ul)
-    // Implementation goes here
-    // console.log("Word:", word);
-    // console.log("Phonetics:", phonetics);
-    // console.log("Meanings:", meanings);
-};
-const getPartOfSpeech = (word, meanings = [], phonetics = []) => {
-    const li = document.createElement("li");
-    li.className = "word";
-
-    const partOfSpeechHTML = meanings
-        .map(({ partOfSpeech }) => `<span data-value="${partOfSpeech}">${partOfSpeech}</span>`)
-        .join(" ");
-
-    li.innerHTML = `
-    <div class="details">
-      <p>${word}</p>
-      ${partOfSpeechHTML}
-    </div>
-    <i class="fa-solid fa-volume-high"></i>
+// Function to generate the word header with part of speech
+const generateWordDetails = ({ word, meanings ,phonetics}) => {
+    const li =document.createElement("li");
+    li.className="word"
+    const partOfSpeechList = meanings.map(({ partOfSpeech }) =>
+        `<span>${partOfSpeech}</span>`).join(' ');
+    li.innerHTML= `
+      <div class="details">
+        <p>${word}</p>
+        ${partOfSpeechList}
+      </div>
+      <i class="fa-solid fa-volume-high"></i>
   `;
-
-    const audioBtn = li.querySelector(".fa-volume-high");
-    audioBtn.addEventListener("click", () => audioHandler(phonetics));
-
+    const audio=li.querySelector(".fa-volume-high");
+    audio.addEventListener("click",()=>audioPlayer(phonetics));
     return li;
 };
+ const audioPlayer=([{audio=undefined}])=>{
+     const audioObject=new Audio(audio)
+     audioObject.play();
+ }
 
-const audioHandler = (phonetics = []) => {
-    const audioObj = phonetics.find(p => p.audio); // pick the first available audio
-    if (!audioObj) {
-        alert("No audio available for this word.");
-        return;
-    }
-
-    const wordAudio = new Audio(audioObj.audio);
-    wordAudio.play();
-};
 
 // Event Listeners
-searchInput.addEventListener("keypress", handleSearch);
+searchInput.addEventListener("keydown", handleSearch);
 searchIcon.addEventListener("click", handleSearch);
+xIcon.addEventListener("click",cleanInput)
+
