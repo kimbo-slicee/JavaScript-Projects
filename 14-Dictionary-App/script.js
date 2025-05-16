@@ -18,8 +18,13 @@ const cleanInput=()=>{
     searchInput.value=''
     xIcon.style.display='none'
 }
-// sense the api response return different entry's i need to chose the largest object that's contain a loot of
-// meanings
+/*utils functions */
+const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+const toLowerCase = str => str.charAt(0).toLowerCase() + str.slice(1);
+
+
+/* sense the api response return different entry's i need to
+chose the largest object that's contain a loot of meanings */
 const handelAPIResponse=(allEntries)=>{
     const bestEntry =  allEntries.reduce((best, current) => {
     const bestCount = best.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
@@ -84,6 +89,7 @@ const displayData = (response) => {
     ul.appendChild(generateWordDetails(response));
     ul.appendChild(div);
     div.appendChild(displayMeaning(response));
+    div.appendChild(displayExamples(response))
     // Append to the wrapper
     wrapper.appendChild(ul);
 };
@@ -126,7 +132,7 @@ const audioPlayer = (phonetics) => {
     const audioObject = new Audio(audioUrl);
     audioObject.play();
 };
-const displayMeaning = ({ meanings }) => {
+const displayMeaning = ({ meanings },strLength=3) => {
     const li = document.createElement("li");
     li.className = "meaning";
 
@@ -137,37 +143,54 @@ const displayMeaning = ({ meanings }) => {
     heading.textContent = "Meaning";
     div.appendChild(heading);
 
-    const filteredMeanings = meanings
-        .filter(({ partOfSpeech }) => partOfSpeech === activeItem)
-        .flatMap(({ definitions }) => definitions);
     /*create function that's can put all separated definition in one sentence */
-    const summarizeMeanings = (meanings, part = activeItem,strLength=3) => {
+    const summarizeMeanings = (meanings, part = activeItem) => {
         const definitions = meanings
             .filter(m => m.partOfSpeech === part)
-            .flatMap(m => m.definitions.map(d => d.definition)).slice(0,strLength);
-        // console.log(definitions.join('').split(',').join('').split('.'));
+            .flatMap(m => m.definitions.map(d => d.definition)).slice(0,strLength).join('').split(',').join('').split('.')
         if (!definitions.length) return "No definition found.";
         // Capitalize first definition, rest in lowercase, joined with semicolons
         const [first, ...rest] = definitions;
         return [capitalize(first), ...rest.map(capitalize)].join(' ') +'...';
     };
-    const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
-    const toLowerCase = str => str.charAt(0).toLowerCase() + str.slice(1);
-
-    if (filteredMeanings.length === 0) {
-        const span = document.createElement("span");
-        span.textContent = "No definitions available.";
-        div.appendChild(span);
-    } else {
-            const span = document.createElement("span");
-            span.textContent =  summarizeMeanings(meanings)
-            div.appendChild(span);
-    }
-
+    // Display Meaning
+    const span = document.createElement("span");
+    span.textContent =  summarizeMeanings(meanings)
+    div.appendChild(span);
     li.appendChild(div);
     return li;
 };
+/*Display examples from the Free Dictionary API*/
+const displayExamples = ({ meanings }) => {
+    const li = document.createElement("li");
+    li.className = "example";
 
+    const div = document.createElement("div");
+    div.className = "details";
+
+    const p = document.createElement("p");
+    p.textContent = "Example";
+    div.appendChild(p);
+
+    // Collect all examples for the active part of speech
+    const examples = meanings
+        .filter(({ partOfSpeech }) => partOfSpeech === activeItem)
+        .flatMap(({ definitions }) =>
+            definitions
+                .filter(({ example }) => example)
+                .map(({ example }) => example)
+        );
+
+    const span = document.createElement("span");
+    span.textContent = examples.length > 0
+        ? examples.join(" | ")
+        : "There are no examples for this part of speech.";
+
+    div.appendChild(span);
+    li.appendChild(div);
+
+    return li;
+};
 
 
 
