@@ -140,17 +140,28 @@ const displayMeaning = ({ meanings }) => {
     const filteredMeanings = meanings
         .filter(({ partOfSpeech }) => partOfSpeech === activeItem)
         .flatMap(({ definitions }) => definitions);
+    /*create function that's can put all separated definition in one sentence */
+    const summarizeMeanings = (meanings, part = activeItem,strLength=3) => {
+        const definitions = meanings
+            .filter(m => m.partOfSpeech === part)
+            .flatMap(m => m.definitions.map(d => d.definition)).slice(0,strLength);
+        // console.log(definitions.join('').split(',').join('').split('.'));
+        if (!definitions.length) return "No definition found.";
+        // Capitalize first definition, rest in lowercase, joined with semicolons
+        const [first, ...rest] = definitions;
+        return [capitalize(first), ...rest.map(capitalize)].join(' ') +'...';
+    };
+    const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+    const toLowerCase = str => str.charAt(0).toLowerCase() + str.slice(1);
 
     if (filteredMeanings.length === 0) {
         const span = document.createElement("span");
         span.textContent = "No definitions available.";
         div.appendChild(span);
     } else {
-        filteredMeanings.forEach(({ definition }) => {
             const span = document.createElement("span");
-            span.textContent = definition;
+            span.textContent =  summarizeMeanings(meanings)
             div.appendChild(span);
-        });
     }
 
     li.appendChild(div);
