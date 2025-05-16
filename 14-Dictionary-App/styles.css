@@ -139,12 +139,13 @@ b{
 .ul .word p{
     font-size: 22px;
     font-weight: 500;
+    text-transform: uppercase;
 }
 ul .word span{
     font-size: 13px;
     color: #989898;
-    text-transform: capitalize;
     cursor: pointer;
+    margin-left: 10px;
 }
 /*ul .word span:hover{*/
 /*}*/

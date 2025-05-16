@@ -7,6 +7,7 @@ const searchIcon = document.querySelector(".search i");
 const xIcon=document.querySelector(".search .fa-xmark");
 let word='';
 let isLoading = false;
+let activeItem='adjective';
 // Toggle Loading State
 const toggleLoading = (state) => {
     isLoading = state;
@@ -77,33 +78,86 @@ const displayData = (response) => {
     textInfo.style.display = "none";
     const ul = document.createElement("ul");
     ul.style.display = "block";
+    const div=document.createElement("div");
+    div.className="content";
     // Append the word details
     ul.appendChild(generateWordDetails(response));
+    ul.appendChild(div);
+    div.appendChild(displayMeaning(response));
     // Append to the wrapper
     wrapper.appendChild(ul);
 };
 
 // Function to generate the word header with part of speech
 const generateWordDetails = ({ word, meanings ,phonetics}) => {
+    // create html elements instead of returning html template
     const li =document.createElement("li");
     li.className="word"
-    const partOfSpeechList = meanings.map(({ partOfSpeech }) =>
-        `<span>${partOfSpeech}</span>`).join(' ');
-    li.innerHTML= `
-      <div class="details">
-        <p>${word}</p>
-        ${partOfSpeechList}
-      </div>
-      <i class="fa-solid fa-volume-high"></i>
-  `;
-    const audio=li.querySelector(".fa-volume-high");
-    audio.addEventListener("click",()=>audioPlayer(phonetics));
+    const detailsDiv = document.createElement("div");
+    detailsDiv.className = "details";
+    const wordP = document.createElement("p");
+    wordP.textContent = word;
+    detailsDiv.appendChild(wordP);
+
+    meanings.forEach(({ partOfSpeech }) => {
+        const span = document.createElement("span");
+        span.textContent = partOfSpeech;
+        detailsDiv.appendChild(span);
+        span.addEventListener("click",()=> {
+            activeItem = span.textContent;
+        })
+    });
+
+    const volumeIcon = document.createElement("i");
+    volumeIcon.className = "fa-solid fa-volume-high";
+    volumeIcon.addEventListener("click", () => audioPlayer(phonetics));
+
+// Compose
+    li.appendChild(detailsDiv);
+    li.appendChild(volumeIcon);
     return li;
 };
- const audioPlayer=([{audio=undefined}])=>{
-     const audioObject=new Audio(audio)
-     audioObject.play();
- }
+const audioPlayer = (phonetics) => {
+    const audioUrl = phonetics.find(p => p.audio)?.audio;
+    if (!audioUrl) {
+        alert("No audio available.");
+        return;
+    }
+    const audioObject = new Audio(audioUrl);
+    audioObject.play();
+};
+const displayMeaning = ({ meanings }) => {
+    const li = document.createElement("li");
+    li.className = "meaning";
+
+    const div = document.createElement("div");
+    div.className = "details";
+
+    const heading = document.createElement("p");
+    heading.textContent = "Meaning";
+    div.appendChild(heading);
+
+    const filteredMeanings = meanings
+        .filter(({ partOfSpeech }) => partOfSpeech === activeItem)
+        .flatMap(({ definitions }) => definitions);
+
+    if (filteredMeanings.length === 0) {
+        const span = document.createElement("span");
+        span.textContent = "No definitions available.";
+        div.appendChild(span);
+    } else {
+        filteredMeanings.forEach(({ definition }) => {
+            const span = document.createElement("span");
+            span.textContent = definition;
+            div.appendChild(span);
+        });
+    }
+
+    li.appendChild(div);
+    return li;
+};
+
+
 
 
 // Event Listeners
