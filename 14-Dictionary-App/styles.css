@@ -201,6 +201,7 @@ ul .word i{
 .content li .details span{
   font-size: 15px;
     color: #7e7e7e;
+    margin-left: 10px;
 }
 .content li .details list{
     display: flex;

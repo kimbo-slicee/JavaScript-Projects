@@ -89,11 +89,15 @@ const displayData = (response) => {
     ul.appendChild(generateWordDetails(response));
     ul.appendChild(div);
     div.appendChild(displayMeaning(response));
-    div.appendChild(displayExamples(response))
-    // Append to the wrapper
+    div.appendChild(displayExamples(response));
+    div.appendChild(displaySynonyms(response));
+    div.appendChild(displayAntonyms(response));
+    // displayAntonyms(response)
+    // show contents
     wrapper.appendChild(ul);
 };
-
+// there is some duplicate code of creating li and there content so let's create function that's return this li and
+// make this code readable and skip redundancy
 // Function to generate the word header with part of speech
 const generateWordDetails = ({ word, meanings ,phonetics}) => {
     // create html elements instead of returning html template
@@ -132,7 +136,7 @@ const audioPlayer = (phonetics) => {
     const audioObject = new Audio(audioUrl);
     audioObject.play();
 };
-const displayMeaning = ({ meanings },strLength=3) => {
+const displayMeaning = ({ meanings },strLength=5) => {
     const li = document.createElement("li");
     li.className = "meaning";
 
@@ -191,7 +195,48 @@ const displayExamples = ({ meanings }) => {
 
     return li;
 };
-
+/*Display Synonyms from the Free Dictionary API*/
+const displaySynonyms=({meanings})=>{
+    const li=document.createElement("li");
+    li.className="Synonyms";
+    const div=document.createElement("div");
+    div.className="details";
+    const p=document.createElement("p");
+    p.textContent="Synonyms";
+    div.appendChild(p);
+    const synonyms=document.createElement("div");
+    synonyms.className="list"
+     meanings.filter(({ partOfSpeech }) => partOfSpeech === activeItem)
+        .flatMap(({ synonyms }) =>synonyms).slice(0,5).forEach((synonym)=>{
+            const span=document.createElement("span");
+            span.textContent=synonym
+            synonyms.appendChild(span)
+        });
+    div.appendChild(synonyms);
+    li.appendChild(div);
+    return li;
+}
+// Display Word antonyms if existe
+const displayAntonyms=({meanings})=>{
+    const li=document.createElement("li");
+    li.className="antonyms";
+    const div=document.createElement("div");
+    div.className="details";
+    const p=document.createElement("p");
+    p.textContent="Antonyms";
+    div.appendChild(p);
+    const antonyms=document.createElement("div");
+    antonyms.className="list"
+    meanings.filter(({ partOfSpeech }) => partOfSpeech === activeItem)
+        .flatMap(({ antonyms }) =>antonyms).slice(0,5).forEach((antonym)=>{
+        const span=document.createElement("span");
+        span.textContent=antonym
+        antonyms.appendChild(span)
+    });
+    div.appendChild(antonyms);
+    li.appendChild(div);
+    return li;
+}
 
 
 // Event Listeners
