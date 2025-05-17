@@ -87,12 +87,13 @@ const displayError = (error) => {
 
 // Display API Data
 const displayData = (response) => {
-    DOM.resultsWrapper.innerHTML="";
+    DOM.resultsWrapper.innerHTML=""
     DOM.textInfo.style.display = "none";
     const ul = document.createElement("ul");
     ul.style.display = "block";
     const contentDiv = document.createElement("div");
     contentDiv.className = "content";
+
     ul.appendChild(generateWordDetails(response));
     ul.appendChild(contentDiv);
     contentDiv.appendChild(displayMeaning(response));

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0; /* Fixed: 'bottom: 0' was likely meant to be 'padding: 0' */
+    box-sizing: border-box;
+}
+:root{
+    --main-font:"Poppins", sans-serif;
+    --color-primary: #e3f2fd; /* Indigo */
+    --color-secondary: #ffff; /* Amber */
+    --color-bg: #0885ff; /* Same as primary */
+    --color-text: #ffffff; /* White text on dark bg */
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--color-primary);
+
+}
+.wrapper{
+    background:var(--color-bg);
+    border-radius: 5px;
+    width: 500px;
+    padding: 30px 30px 35px;
+}
+.wrapper form{
+    height: 225px;
+    background-color: var(--color-secondary);
+    border-radius: 5px;
+    display: flex;
+    text-align:center;
+    align-items: center;
+    justify-content: center;
+}
+form img{
+    display: none;
+}
+form .content i{
+    color: var(--color-bg);
+
+}
+
