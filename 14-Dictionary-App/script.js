@@ -1,45 +1,55 @@
 // DOM Element References
-const wrapper = document.querySelector(".wrapper");
-const searchInput = document.querySelector("input");
-const textInfo = document.querySelector(".info-text");
-const spinner = document.querySelector(".spinner");
-const searchIcon = document.querySelector(".search i");
-const xIcon=document.querySelector(".search .fa-xmark");
-let word='';
+const DOM = {
+    wrapper: document.querySelector(".wrapper"),
+    searchInput: document.querySelector("input"),
+    textInfo: document.querySelector(".info-text"),
+    spinner: document.querySelector(".spinner"),
+    searchIcon: document.querySelector(".search i"),
+    xIcon: document.querySelector(".search .fa-xmark"),
+    resultsWrapper: document.getElementById("results")
+
+};
+
+let word = '';
 let isLoading = false;
-let activeItem='adjective';
+let activeItem = 'adjective';
+
 // Toggle Loading State
 const toggleLoading = (state) => {
     isLoading = state;
-    spinner.style.display = isLoading ? "grid" : "none";
-    textInfo.style.display = isLoading ? "none" : "block";
+    DOM.spinner.style.display = isLoading ? "grid" : "none";
+    DOM.textInfo.style.display = isLoading ? "none" : "block";
 };
-const cleanInput=()=>{
-    searchInput.value=''
-    xIcon.style.display='none'
-}
-/*utils functions */
+
+// Clean input
+const cleanInput = () => {
+    DOM.searchInput.value = '';
+    DOM.xIcon.style.display = 'none';
+};
+
+// Utils
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 const toLowerCase = str => str.charAt(0).toLowerCase() + str.slice(1);
 
+// Handle API Response
+const handelAPIResponse = (allEntries) => {
+    const bestEntry = allEntries.reduce((best, current) => {
+        const bestCount = best.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
+        const currentCount = current.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
+        return currentCount > bestCount ? current : best;
+    });
+    displayData(bestEntry);
+};
 
-/* sense the api response return different entry's i need to
-chose the largest object that's contain a loot of meanings */
-const handelAPIResponse=(allEntries)=>{
-    const bestEntry =  allEntries.reduce((best, current) => {
-    const bestCount = best.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
-    const currentCount = current.meanings.reduce((sum, m) => sum + m.definitions.length, 0);
-    return currentCount > bestCount ? current : best;
-});
-    displayData(bestEntry)
-}
+// Handle Search
 const handleSearch = (e) => {
     const isEnter = e.key === "Enter";
     const isClick = e.type === "click";
-    word = searchInput.value.trim();
-    word.length>=1?xIcon.style.display="block":xIcon.style.display="none"
+    word = DOM.searchInput.value.trim();
+    DOM.xIcon.style.display = word.length >= 1 ? "block" : "none";
+
     if ((isEnter || isClick) && word) {
-        cleanInput()
+        cleanInput();
         toggleLoading(true);
         fetchData(word)
             .then(handelAPIResponse)
@@ -47,22 +57,19 @@ const handleSearch = (e) => {
     }
 };
 
-
-// Fetch Data from API
+// Fetch Data
 const fetchData = (word) => {
     const URL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", URL);
         xhr.onload = () => {
+            toggleLoading(false);
             if (xhr.status === 200) {
-                setTimeout(() => {
-                    resolve(JSON.parse(xhr.responseText));
-                }, 500);
+                setTimeout(() => resolve(JSON.parse(xhr.responseText)), 500);
             } else {
                 reject(`Error: ${xhr.status}`);
             }
-            toggleLoading(false);
         };
         xhr.onerror = () => {
             toggleLoading(false);
@@ -72,39 +79,37 @@ const fetchData = (word) => {
     });
 };
 
-// Display Errors
+// Display Error
 const displayError = (error) => {
-    console.error(error)
-    textInfo.innerHTML=`No definition found for the word <b>${word}</b>`;
+    console.error(error);
+    DOM.textInfo.innerHTML = `No definition found for the word <b>${word}</b>`;
 };
 
-//  Display API Data
+// Display API Data
 const displayData = (response) => {
-    textInfo.style.display = "none";
+    DOM.resultsWrapper.innerHTML="";
+    DOM.textInfo.style.display = "none";
     const ul = document.createElement("ul");
     ul.style.display = "block";
-    const div=document.createElement("div");
-    div.className="content";
-    // Append the word details
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "content";
     ul.appendChild(generateWordDetails(response));
-    ul.appendChild(div);
-    div.appendChild(displayMeaning(response));
-    div.appendChild(displayExamples(response));
-    div.appendChild(displaySynonyms(response));
-    div.appendChild(displayAntonyms(response));
-    // displayAntonyms(response)
-    // show contents
-    wrapper.appendChild(ul);
+    ul.appendChild(contentDiv);
+    contentDiv.appendChild(displayMeaning(response));
+    contentDiv.appendChild(generateListSection("Example", extractExamples(response)));
+    contentDiv.appendChild(generateListSection("Synonyms", extractList(response, "synonyms")));
+    contentDiv.appendChild(generateListSection("Antonyms", extractList(response, "antonyms")));
+    DOM.resultsWrapper.appendChild(ul)
 };
-// there is some duplicate code of creating li and there content so let's create function that's return this li and
-// make this code readable and skip redundancy
-// Function to generate the word header with part of speech
-const generateWordDetails = ({ word, meanings ,phonetics}) => {
-    // create html elements instead of returning html template
-    const li =document.createElement("li");
-    li.className="word"
+
+// Generate Word Details
+const generateWordDetails = ({ word, meanings, phonetics }) => {
+    const li = document.createElement("li");
+    li.className = "word";
+
     const detailsDiv = document.createElement("div");
     detailsDiv.className = "details";
+
     const wordP = document.createElement("p");
     wordP.textContent = word;
     detailsDiv.appendChild(wordP);
@@ -112,31 +117,34 @@ const generateWordDetails = ({ word, meanings ,phonetics}) => {
     meanings.forEach(({ partOfSpeech }) => {
         const span = document.createElement("span");
         span.textContent = partOfSpeech;
-        detailsDiv.appendChild(span);
-        span.addEventListener("click",()=> {
+        span.addEventListener("click", () => {
             activeItem = span.textContent;
-        })
+            span.classList.add("active");
+        });
+        detailsDiv.appendChild(span);
     });
 
     const volumeIcon = document.createElement("i");
     volumeIcon.className = "fa-solid fa-volume-high";
     volumeIcon.addEventListener("click", () => audioPlayer(phonetics));
 
-// Compose
     li.appendChild(detailsDiv);
     li.appendChild(volumeIcon);
     return li;
 };
+
+// Audio Player
 const audioPlayer = (phonetics) => {
     const audioUrl = phonetics.find(p => p.audio)?.audio;
     if (!audioUrl) {
         alert("No audio available.");
         return;
     }
-    const audioObject = new Audio(audioUrl);
-    audioObject.play();
+    new Audio(audioUrl).play();
 };
-const displayMeaning = ({ meanings },strLength=5) => {
+
+// Display Meaning
+const displayMeaning = ({ meanings }, strLength = 5) => {
     const li = document.createElement("li");
     li.className = "meaning";
 
@@ -147,100 +155,81 @@ const displayMeaning = ({ meanings },strLength=5) => {
     heading.textContent = "Meaning";
     div.appendChild(heading);
 
-    /*create function that's can put all separated definition in one sentence */
-    const summarizeMeanings = (meanings, part = activeItem) => {
-        const definitions = meanings
-            .filter(m => m.partOfSpeech === part)
-            .flatMap(m => m.definitions.map(d => d.definition)).slice(0,strLength).join('').split(',').join('').split('.')
-        if (!definitions.length) return "No definition found.";
-        // Capitalize first definition, rest in lowercase, joined with semicolons
-        const [first, ...rest] = definitions;
-        return [capitalize(first), ...rest.map(capitalize)].join(' ') +'...';
-    };
-    // Display Meaning
     const span = document.createElement("span");
-    span.textContent =  summarizeMeanings(meanings)
+    span.textContent = summarizeMeanings(meanings, strLength);
     div.appendChild(span);
     li.appendChild(div);
+
     return li;
 };
-/*Display examples from the Free Dictionary API*/
-const displayExamples = ({ meanings }) => {
+
+// Summarize Meanings
+const summarizeMeanings = (meanings, strLength = 5, part = activeItem) => {
+    const definitions = meanings
+        .filter(m => m.partOfSpeech === part)
+        .flatMap(m => m.definitions.map(d => d.definition))
+        .slice(0, strLength)
+        .join('')
+        .split(',')
+        .join('')
+        .split('.');
+
+    if (!definitions.length) return "No definition found.";
+
+    const [first, ...rest] = definitions;
+    return [capitalize(first), ...rest.map(capitalize)].join(' ') + '...';
+};
+
+// Generate List Section (Reusable)
+const generateListSection = (title, items) => {
     const li = document.createElement("li");
-    li.className = "example";
+    li.className = title.toLowerCase();
 
     const div = document.createElement("div");
     div.className = "details";
 
     const p = document.createElement("p");
-    p.textContent = "Example";
+    p.textContent = title;
     div.appendChild(p);
 
-    // Collect all examples for the active part of speech
-    const examples = meanings
-        .filter(({ partOfSpeech }) => partOfSpeech === activeItem)
-        .flatMap(({ definitions }) =>
-            definitions
-                .filter(({ example }) => example)
-                .map(({ example }) => example)
-        );
+    const content = document.createElement("div");
+    content.className = "list";
 
-    const span = document.createElement("span");
-    span.textContent = examples.length > 0
-        ? examples.join(" | ")
-        : "There are no examples for this part of speech.";
+    if (items.length > 0) {
+        items.forEach(text => {
+            const span = document.createElement("span");
+            span.textContent = text;
+            content.appendChild(span);
+        });
+    } else {
+        const span = document.createElement("span");
+        span.textContent = `There are no ${title.toLowerCase()}s for this part of speech.`;
+        content.appendChild(span);
+    }
 
-    div.appendChild(span);
+    div.appendChild(content);
     li.appendChild(div);
-
     return li;
 };
-/*Display Synonyms from the Free Dictionary API*/
-const displaySynonyms=({meanings})=>{
-    const li=document.createElement("li");
-    li.className="Synonyms";
-    const div=document.createElement("div");
-    div.className="details";
-    const p=document.createElement("p");
-    p.textContent="Synonyms";
-    div.appendChild(p);
-    const synonyms=document.createElement("div");
-    synonyms.className="list"
-     meanings.filter(({ partOfSpeech }) => partOfSpeech === activeItem)
-        .flatMap(({ synonyms }) =>synonyms).slice(0,5).forEach((synonym)=>{
-            const span=document.createElement("span");
-            span.textContent=synonym
-            synonyms.appendChild(span)
-        });
-    div.appendChild(synonyms);
-    li.appendChild(div);
-    return li;
-}
-// Display Word antonyms if existe
-const displayAntonyms=({meanings})=>{
-    const li=document.createElement("li");
-    li.className="antonyms";
-    const div=document.createElement("div");
-    div.className="details";
-    const p=document.createElement("p");
-    p.textContent="Antonyms";
-    div.appendChild(p);
-    const antonyms=document.createElement("div");
-    antonyms.className="list"
-    meanings.filter(({ partOfSpeech }) => partOfSpeech === activeItem)
-        .flatMap(({ antonyms }) =>antonyms).slice(0,5).forEach((antonym)=>{
-        const span=document.createElement("span");
-        span.textContent=antonym
-        antonyms.appendChild(span)
-    });
-    div.appendChild(antonyms);
-    li.appendChild(div);
-    return li;
-}
 
+// Extract Examples
+const extractExamples = ({ meanings }) => {
+    return meanings
+        .filter(m => m.partOfSpeech === activeItem)
+        .flatMap(m => m.definitions)
+        .filter(d => d.example)
+        .map(d => d.example);
+};
+
+// Extract Synonyms / Antonyms
+const extractList = ({ meanings }, type) => {
+    return meanings
+        .filter(m => m.partOfSpeech === activeItem)
+        .flatMap(m => m[type] || [])
+        .slice(0, 5);
+};
 
 // Event Listeners
-searchInput.addEventListener("keydown", handleSearch);
-searchIcon.addEventListener("click", handleSearch);
-xIcon.addEventListener("click",cleanInput)
-
+DOM.searchInput.addEventListener("keydown", handleSearch);
+DOM.searchIcon.addEventListener("click", handleSearch);
+DOM.xIcon.addEventListener("click", cleanInput);
